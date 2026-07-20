@@ -66,8 +66,10 @@ PAGES.each do |f, name|
   check("#{name}: meta description") { d.at_css('meta[name="description"]')&.[]("content").to_s.strip.length > 20 }
   check("#{name}: canonical URL")    { d.at_css('link[rel="canonical"]')&.[]("href").to_s.start_with?("http") }
   check("#{name}: og:image")         { d.at_css('meta[property="og:image"]')&.[]("content").to_s.include?("og-default") }
-  check("#{name}: all <img> have non-empty alt (or aria-hidden)") do
-    d.css("img").all? { |i| i["aria-hidden"] == "true" || i["alt"].to_s.strip.length.positive? || (i["alt"] && i["alt"] == "") && i["aria-hidden"] }
+  # Every <img> must carry an alt attribute. A present-but-empty alt="" is the
+  # correct marker for a decorative image; aria-hidden is also accepted.
+  check("#{name}: every <img> has an alt attribute (empty ok for decorative)") do
+    d.css("img").all? { |i| i.key?("alt") || i["aria-hidden"] == "true" }
   end
 end
 
