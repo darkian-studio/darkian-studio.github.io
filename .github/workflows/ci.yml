@@ -30,7 +30,7 @@ jobs:
         run: bundle exec jekyll build --trace
 
       - name: Structural + JSON-LD tests
-        run: ruby script/test_site.rb
+        run: bundle exec ruby script/test_site.rb
 
       - name: HTMLProofer (internal links, images, HTML)
         run: |
