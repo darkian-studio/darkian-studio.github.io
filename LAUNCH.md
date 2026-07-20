@@ -1,3 +1,7 @@
+---
+sitemap: false
+---
+
 # Launch & discovery checklist
 
 The site ships the technical SEO/AEO foundation automatically (sitemap, canonicals,
