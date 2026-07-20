@@ -33,6 +33,15 @@ author: Darkian Studio
 lang: en-US
 timezone: Etc/UTC
 
+# --- Search engine ownership verification (jekyll-seo-tag emits the meta tags) ---
+# Paste the token from each console's "HTML tag" verification method, then
+# uncomment. Google: Search Console → Add property (URL-prefix) → HTML tag.
+# Bing:  Bing Webmaster Tools → Add site → HTML meta tag. Bing verification is
+# high-leverage because ChatGPT Search and Copilot draw on the Bing index.
+webmaster_verifications:
+  # google: PASTE_GOOGLE_TOKEN_HERE
+  # bing: PASTE_BING_TOKEN_HERE
+
 # --- SEO / OG defaults consumed by jekyll-seo-tag ---
 logo: /assets/images/watermark.png
 twitter:

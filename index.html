@@ -6,15 +6,20 @@ description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: 
 
 <section class="hero">
   <div class="hero-inner">
-    <span class="eyebrow"><span class="dot"></span> First public beta &middot; GitHub Releases only</span>
-    <h1>A real IDE on your phone &mdash; not a toy sandbox.</h1>
-    <p class="sub">Darkian Studio is a mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host, all running against one real runtime over a bridge &mdash; Termux on device, or any Linux/macOS host.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="{{ site.releases_latest_url }}">Download latest beta</a>
-      <a class="btn" href="{{ site.repo_url }}">View on GitHub</a>
-      <a class="btn btn-ghost" href="{{ '/docs/' | relative_url }}">Read the docs</a>
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="dot"></span> First public beta &middot; GitHub Releases only</span>
+      <h1>A real IDE on your phone &mdash; not a toy sandbox.</h1>
+      <p class="sub">Darkian Studio is a mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host, all running against one real runtime over a bridge &mdash; Termux on device, or any Linux/macOS host.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="{{ site.releases_latest_url }}">Download latest beta</a>
+        <a class="btn" href="{{ site.repo_url }}">View on GitHub</a>
+        <a class="btn btn-ghost" href="{{ '/docs/' | relative_url }}">Read the docs</a>
+      </div>
+      <p class="hero-note">Free during beta. Android APK via GitHub Releases &mdash; no Play Store build.</p>
     </div>
-    <p class="hero-note">Free during beta. Android APK via GitHub Releases &mdash; no Play Store build.</p>
+    <div class="hero-art" aria-hidden="true">
+      <img src="{{ '/assets/images/watermark.png' | relative_url }}" alt="" width="320" height="320" loading="eager" decoding="async">
+    </div>
   </div>
 </section>
 
@@ -101,5 +106,30 @@ description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: 
     "availability": "https://schema.org/PreOrder"
   },
   "author": { "@type": "Organization", "name": "Darkian Studio", "url": "{{ site.repo_url }}" }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ site.url }}/#organization",
+      "name": "Darkian Studio",
+      "url": "{{ site.url }}/",
+      "logo": "{{ site.url }}/assets/images/watermark.png",
+      "sameAs": ["{{ site.repo_url }}"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ site.url }}/#website",
+      "name": "Darkian Studio",
+      "url": "{{ site.url }}/",
+      "description": {{ site.description | strip_newlines | strip | jsonify }},
+      "inLanguage": "en-US",
+      "publisher": { "@id": "{{ site.url }}/#organization" }
+    }
+  ]
 }
 </script>

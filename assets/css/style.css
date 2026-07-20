@@ -148,7 +148,21 @@ code, kbd, pre, samp { font-family: var(--font-mono); font-size: .9em; }
 
 /* ---------- Hero ---------- */
 .hero { padding: 72px 20px 40px; border-bottom: 1px solid var(--border); }
-.hero-inner { max-width: var(--wrap); margin: 0 auto; }
+.hero-inner {
+  max-width: var(--wrap); margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center; gap: 48px;
+}
+.hero-copy { min-width: 0; }
+.hero-art { display: flex; justify-content: center; }
+.hero-art img {
+  width: 320px; height: auto;
+  filter: drop-shadow(0 0 48px rgba(88, 166, 255, .22));
+}
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-art { display: none; }
+}
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: .82rem; color: var(--fg-muted); border: 1px solid var(--border);
