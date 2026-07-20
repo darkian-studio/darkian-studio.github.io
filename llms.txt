@@ -15,6 +15,7 @@ Core facts (identical across the site): name "Darkian Studio" (DS); category dev
 - [Install]({{ site.url }}/install/): Install Termux, download the beta APK, run one setup command, verify. Runtime-aware for Termux, Linux, and macOS.
 - [Getting started]({{ site.url }}/docs/getting-started/): First-run tour — open a project, terminal, first LSP edit, first debug session, first git action.
 - [Architecture]({{ site.url }}/docs/architecture/): One runtime, local or remote, serves editor, terminal, LSP, debugger, git, and extensions over a bridge.
+- [dsterm]({{ site.url }}/docs/dsterm/): The open-source Rust runtime bridge DS connects to — PTY, LSP/DAP/MCP/extension-host bridges, command execution; install, CLI, config, and API reference.
 - [Troubleshooting]({{ site.url }}/docs/troubleshooting/): Diagnostics logs, crash reports, bug-report guidance, and known limitations.
 - [FAQ]({{ site.url }}/faq/): Direct answers to common questions about DS.
 

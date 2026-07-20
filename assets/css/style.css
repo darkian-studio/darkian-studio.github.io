@@ -93,7 +93,10 @@ code, kbd, pre, samp { font-family: var(--font-mono); font-size: .9em; }
 /* ---------- Generic page ---------- */
 .page { padding: 40px 20px 72px; }
 .page-head { margin-bottom: 8px; }
-.lede { font-size: 1.15rem; color: var(--fg-muted); margin-top: 0; max-width: 62ch; }
+.lede { font-size: 1.15rem; color: var(--fg-muted); margin-top: 0; max-width: 70ch; }
+/* Standalone content pages (install/faq/changelog) fill the wrap like the
+   home sections, rather than leaving a narrow left-aligned column. */
+.page .prose { max-width: none; }
 
 /* ---------- Prose ---------- */
 .prose { max-width: 74ch; }
