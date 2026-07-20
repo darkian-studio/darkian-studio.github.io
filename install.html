@@ -1,0 +1,77 @@
+---
+layout: default
+permalink: /install/
+title: "Install Darkian Studio"
+description: "Install Darkian Studio: install Termux from F-Droid, download the beta APK from GitHub Releases, run one setup command, and tap Verify setup. Runtime-aware setup for Termux, Linux, and macOS."
+---
+
+<article class="page wrap">
+  <header class="page-head">
+    <h1>Install Darkian Studio</h1>
+    <p class="lede">Install Termux from F-Droid, download the DS beta APK from GitHub Releases, run one setup command, and tap <strong>Verify setup</strong>. The setup script is runtime-aware for Termux, Linux, and macOS.</p>
+  </header>
+
+  <div class="prose">
+    <div class="callout warn">
+      <p><strong>Official APKs only ship via <a href="{{ site.releases_url }}">GitHub Releases</a>.</strong> There is no Play Store build and no other distribution channel. If you obtained a DS APK from elsewhere, do not trust it.</p>
+    </div>
+
+    <div class="tabs">
+      <input type="radio" name="os" id="tab-android" checked>
+      <input type="radio" name="os" id="tab-linux">
+      <input type="radio" name="os" id="tab-macos">
+      <div class="tablist" role="tablist">
+        <label class="tablabel" for="tab-android">Android (Termux)</label>
+        <label class="tablabel" for="tab-linux">Linux</label>
+        <label class="tablabel" for="tab-macos">macOS</label>
+      </div>
+
+      <section class="tabpanel" id="panel-android" role="tabpanel" aria-label="Android install">
+        <p>Android is the primary Darkian Studio platform. DS drives a Termux runtime on the device.</p>
+        <ol class="flow">
+          <li><strong>Install Termux from F-Droid.</strong> The Play Store build is outdated and breaks DS: <a href="{{ site.termux_fdroid_url }}">{{ site.termux_fdroid_url }}</a></li>
+          <li><strong>Download the latest DS APK</strong> from the <a href="{{ site.releases_url }}">Releases page</a> and install it.</li>
+          <li><strong>Open DS and complete onboarding.</strong> On the <em>Run the setup</em> step, copy the command and paste it into Termux:
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+              <pre><code>pkg install curl; curl -fsSL https://raw.githubusercontent.com/darkian-studio/app/main/install.sh | bash</code></pre>
+            </div>
+          </li>
+          <li><strong>Tap Verify setup in DS.</strong> Once it reports the runtime is ready, you are done.</li>
+        </ol>
+      </section>
+
+      <section class="tabpanel" id="panel-linux" role="tabpanel" aria-label="Linux install">
+        <p>On Linux, the same setup script provisions the runtime using the correct package manager (apt, pacman, or dnf). Run it in your shell:</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button">Copy</button>
+          <pre><code>curl -fsSL https://raw.githubusercontent.com/darkian-studio/app/main/install.sh | bash</code></pre>
+        </div>
+        <p>The script skips already-installed components and verifies the runtime before it exits. You can then connect a DS workspace to this Linux host as a remote runtime.</p>
+      </section>
+
+      <section class="tabpanel" id="panel-macos" role="tabpanel" aria-label="macOS install">
+        <p>On macOS, the setup script uses Homebrew to provision the runtime. Run it in Terminal:</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button">Copy</button>
+          <pre><code>curl -fsSL https://raw.githubusercontent.com/darkian-studio/app/main/install.sh | bash</code></pre>
+        </div>
+        <p>The script installs missing components, skips what's present, and verifies the runtime before exiting. You can then connect a DS workspace to this macOS host as a remote runtime.</p>
+      </section>
+    </div>
+
+    <div class="callout info">
+      <p>The setup script is <strong>runtime aware</strong>: it uses the correct commands for Termux, Linux (apt/pacman/dnf), and macOS (Homebrew), skips already-installed components, and verifies the result before exiting.</p>
+    </div>
+
+    <h2 id="verify-failed">If Verify setup fails</h2>
+    <p>If the runtime doesn't come up or verification fails, head to <a href="{{ '/docs/troubleshooting/' | relative_url }}">Troubleshooting</a> for diagnostics steps and known limitations. Note that connecting a DS workspace to a <strong>Windows-hosted</strong> runtime is not supported in this beta &mdash; use Termux or a Linux/macOS host.</p>
+
+    <h2>Next steps</h2>
+    <ul>
+      <li><a href="{{ '/docs/getting-started/' | relative_url }}">Getting started</a> &mdash; a first-run tour beyond install.</li>
+      <li><a href="{{ '/docs/architecture/' | relative_url }}">Architecture</a> &mdash; how the runtime bridge works.</li>
+      <li><a href="{{ '/faq/' | relative_url }}">FAQ</a> &mdash; quick answers to common questions.</li>
+    </ul>
+  </div>
+</article>

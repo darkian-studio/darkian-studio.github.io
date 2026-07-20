@@ -1,0 +1,38 @@
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="{{ '/assets/images/watermark.png' | relative_url }}" alt="" width="24" height="24" aria-hidden="true">
+      <p>A real, mobile-first IDE for Android and Linux. Free during beta.</p>
+      <a class="star-badge" href="{{ site.repo_url }}" aria-label="Star Darkian Studio on GitHub">
+        <img src="https://img.shields.io/github/stars/darkian-studio/app?style=social" alt="GitHub stars for darkian-studio/app" width="120" height="20" loading="lazy">
+      </a>
+    </div>
+
+    <nav class="footer-col" aria-label="Product">
+      <h2>Product</h2>
+      <a href="{{ '/install/' | relative_url }}">Install</a>
+      <a href="{{ '/docs/getting-started/' | relative_url }}">Getting started</a>
+      <a href="{{ '/changelog/' | relative_url }}">Changelog</a>
+      <a href="{{ site.releases_latest_url }}">Download latest beta</a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Docs">
+      <h2>Docs</h2>
+      <a href="{{ '/docs/' | relative_url }}">Docs home</a>
+      <a href="{{ '/docs/architecture/' | relative_url }}">Architecture</a>
+      <a href="{{ '/docs/troubleshooting/' | relative_url }}">Troubleshooting</a>
+      <a href="{{ '/faq/' | relative_url }}">FAQ</a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Community">
+      <h2>Community</h2>
+      <a href="{{ site.repo_url }}">GitHub repo</a>
+      <a href="{{ site.releases_url }}">Releases</a>
+      <a href="{{ site.bug_report_url }}">Report a bug</a>
+      <a href="{{ site.discussions_url }}">Discussions</a>
+    </nav>
+  </div>
+  <div class="wrap footer-legal">
+    <p>&copy; {{ site.time | date: '%Y' }} Darkian Studio. First public beta &mdash; APKs ship only via <a href="{{ site.releases_url }}">GitHub Releases</a>.</p>
+  </div>
+</footer>

@@ -1,0 +1,15 @@
+- title: Overview
+  items:
+    - { label: Docs home, url: /docs/ }
+    - { label: Getting started, url: /docs/getting-started/ }
+    - { label: Architecture, url: /docs/architecture/ }
+    - { label: Troubleshooting, url: /docs/troubleshooting/ }
+- title: Comparisons
+  items:
+    - { label: DS vs VS Code, url: /docs/vs-vscode/ }
+    - { label: DS vs Acode, url: /docs/vs-acode/ }
+- title: More
+  items:
+    - { label: Install, url: /install/ }
+    - { label: FAQ, url: /faq/ }
+    - { label: Changelog, url: /changelog/ }

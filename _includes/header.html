@@ -1,0 +1,24 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <img src="{{ '/assets/images/watermark.png' | relative_url }}" alt="Darkian Studio logo" width="28" height="28">
+      <span>Darkian&nbsp;Studio</span>
+    </a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </label>
+
+    <nav class="site-nav" aria-label="Primary">
+      {%- assign p = page.url -%}
+      <a href="{{ '/install/' | relative_url }}"{% if p contains '/install' %} aria-current="page"{% endif %}>Install</a>
+      <a href="{{ '/docs/' | relative_url }}"{% if p contains '/docs' %} aria-current="page"{% endif %}>Docs</a>
+      <a href="{{ '/faq/' | relative_url }}"{% if p contains '/faq' %} aria-current="page"{% endif %}>FAQ</a>
+      <a href="{{ '/changelog/' | relative_url }}"{% if p contains '/changelog' %} aria-current="page"{% endif %}>Changelog</a>
+      <a class="nav-cta" href="{{ site.releases_latest_url }}">Download beta</a>
+      <a class="nav-gh" href="{{ site.repo_url }}" aria-label="Darkian Studio on GitHub">GitHub</a>
+    </nav>
+  </div>
+</header>

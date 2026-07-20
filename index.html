@@ -1,0 +1,105 @@
+---
+layout: default
+title: "Darkian Studio — a real mobile IDE for Android & Linux"
+description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: code editor, terminal, LSP, debugging, git, and an extension host over a Termux or system runtime. Free during beta, via GitHub Releases."
+---
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow"><span class="dot"></span> First public beta &middot; GitHub Releases only</span>
+    <h1>A real IDE on your phone &mdash; not a toy sandbox.</h1>
+    <p class="sub">Darkian Studio is a mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host, all running against one real runtime over a bridge &mdash; Termux on device, or any Linux/macOS host.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="{{ site.releases_latest_url }}">Download latest beta</a>
+      <a class="btn" href="{{ site.repo_url }}">View on GitHub</a>
+      <a class="btn btn-ghost" href="{{ '/docs/' | relative_url }}">Read the docs</a>
+    </div>
+    <p class="hero-note">Free during beta. Android APK via GitHub Releases &mdash; no Play Store build.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How it works</h2>
+      <p>Four steps from a fresh phone to a working development environment.</p>
+    </div>
+    <ol class="steps">
+      <li class="step"><span class="num">1</span><h3>Install Termux</h3><p>Get Termux from F-Droid &mdash; the runtime DS drives on Android.</p></li>
+      <li class="step"><span class="num">2</span><h3>Run one setup command</h3><p>Paste the setup command DS shows during onboarding into Termux.</p></li>
+      <li class="step"><span class="num">3</span><h3>Verify setup</h3><p>Tap <strong>Verify setup</strong> in DS; it checks the runtime is ready.</p></li>
+      <li class="step"><span class="num">4</span><h3>Start coding</h3><p>Open a project and use the editor, terminal, LSP, and debugger.</p></li>
+    </ol>
+    <p style="margin-top:24px"><a class="btn" href="{{ '/install/' | relative_url }}">See the full install guide</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>One runtime for everything</h2>
+      <p>Editor, terminal, language servers, debugger, git, and extensions all share the same runtime &mdash; the same <code>PATH</code>, filesystem, and SDKs.</p>
+    </div>
+    <div class="features">
+      <div class="feature"><p class="ic">EDITOR</p><h3>Code editor</h3><p>Syntax highlighting, many languages, and a command palette.</p></div>
+      <div class="feature"><p class="ic">TERMINAL</p><h3>Integrated terminal</h3><p>A full shell through your runtime &mdash; Termux on Android.</p></div>
+      <div class="feature"><p class="ic">LSP · DAP</p><h3>LSP &amp; debugging</h3><p>Language intelligence and breakpoint debugging over the bridge.</p></div>
+      <div class="feature"><p class="ic">GIT</p><h3>Git</h3><p>Clone, commit, push, pull, and review changes in a dedicated panel.</p></div>
+      <div class="feature"><p class="ic">EXTENSIONS</p><h3>Extension host</h3><p>A sidecar runtime for optional, VS Code-compatible extensions.</p></div>
+      <div class="feature"><p class="ic">RUNTIME</p><h3>Local or remote</h3><p>Point the bridge at the phone, or a Linux/macOS host over the network.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How does it compare?</h2>
+      <p>Same facts as the raw docs, framed for the decision you're actually making.</p>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card">
+        <h3>DS vs VS Code</h3>
+        <p>A desktop-first editor on a full OS versus a mobile-first workflow over a runtime bridge, with a partial <code>vscode</code> extension API.</p>
+        <a href="{{ '/docs/vs-vscode/' | relative_url }}">Read the comparison &rarr;</a>
+      </div>
+      <div class="compare-card">
+        <h3>DS vs Acode</h3>
+        <p>A lightweight mobile editor with a PTY/LSP backend versus DS's single runtime for editor, LSP, debugger, and extensions.</p>
+        <a href="{{ '/docs/vs-acode/' | relative_url }}">Read the comparison &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="callout warn">
+      <p><strong>This is the first public beta.</strong> Expect rough edges. Official APKs ship <strong>only</strong> via <a href="{{ site.releases_url }}">GitHub Releases</a> &mdash; there is no Play Store build and no other distribution channel. If you obtained a DS APK from elsewhere, do not trust it. See the <a href="{{ '/docs/troubleshooting/#known-limitations' | relative_url }}">known limitations</a> before filing a bug.</p>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Darkian Studio",
+  "alternateName": "DS",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Android, Linux",
+  "description": "Darkian Studio is a real, mobile-first IDE for Android and Linux with a code editor, integrated terminal, LSP, debugging, git, and an extension host, powered by a Termux or system runtime reached over a bridge.",
+  "url": "{{ site.url }}/",
+  "downloadUrl": "{{ site.releases_latest_url }}",
+  "softwareVersion": "1.0.0-beta",
+  "releaseNotes": "{{ site.url }}/changelog/",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  },
+  "author": { "@type": "Organization", "name": "Darkian Studio", "url": "{{ site.repo_url }}" }
+}
+</script>

@@ -1,0 +1,31 @@
+---
+permalink: /llms.txt
+layout: null
+sitemap: false
+---
+# Darkian Studio
+
+> Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. It brings a code editor, integrated terminal, LSP, debugging, git, and an extension host into one app, powered by a Termux or system runtime reached over a bridge. It is free during its first public beta and distributed as an Android APK via GitHub Releases (no Play Store).
+
+Core facts (identical across the site): name "Darkian Studio" (DS); category developer IDE; platforms Android and Linux; price free (beta); distribution GitHub Releases APK only. Connecting to a Windows-hosted remote runtime is unsupported in this beta.
+
+## Docs
+
+- [Home]({{ site.url }}/): What DS is, how it works, and the download link.
+- [Install]({{ site.url }}/install/): Install Termux, download the beta APK, run one setup command, verify. Runtime-aware for Termux, Linux, and macOS.
+- [Getting started]({{ site.url }}/docs/getting-started/): First-run tour — open a project, terminal, first LSP edit, first debug session, first git action.
+- [Architecture]({{ site.url }}/docs/architecture/): One runtime, local or remote, serves editor, terminal, LSP, debugger, git, and extensions over a bridge.
+- [Troubleshooting]({{ site.url }}/docs/troubleshooting/): Diagnostics logs, crash reports, bug-report guidance, and known limitations.
+- [FAQ]({{ site.url }}/faq/): Direct answers to common questions about DS.
+
+## Comparisons
+
+- [DS vs VS Code]({{ site.url }}/docs/vs-vscode/): Mobile-first runtime bridge versus a desktop-first editor with the full vscode API.
+- [DS vs Acode]({{ site.url }}/docs/vs-acode/): One shared runtime for everything versus a mobile editor with a focused PTY/LSP backend.
+
+## Optional
+
+- [Changelog]({{ site.url }}/changelog/): Release notes, mirrored from GitHub Releases.
+- [GitHub repository]({{ site.repo_url }}): Public support and release home.
+- [Latest release]({{ site.releases_latest_url }}): Download the latest beta APK.
+- [Report a bug]({{ site.bug_report_url }}): GitHub bug-report template.

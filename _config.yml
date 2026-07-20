@@ -1,0 +1,67 @@
+title: Darkian Studio
+tagline: A real, mobile-first IDE for Android and Linux
+description: >-
+  Darkian Studio is a real, mobile-first IDE for Android and Linux with a code
+  editor, integrated terminal, LSP, debugging, git, and an extension host,
+  powered by a Termux or system runtime over a bridge. Free during beta,
+  distributed via GitHub Releases.
+
+url: "https://darkian-studio.github.io"
+baseurl: ""
+
+# --- Canonical external URLs (single source of truth; reuse across pages) ---
+repo_url: "https://github.com/darkian-studio/app"
+releases_url: "https://github.com/darkian-studio/app/releases"
+releases_latest_url: "https://github.com/darkian-studio/app/releases/latest"
+discussions_url: "https://github.com/darkian-studio/app/discussions"
+bug_report_url: "https://github.com/darkian-studio/app/issues/new?template=bug_report.yml"
+feature_request_url: "https://github.com/darkian-studio/app/issues/new?template=feature_request.yml"
+termux_fdroid_url: "https://f-droid.org/en/packages/com.termux/"
+github_org: darkian-studio
+github_repo: app
+
+# --- Core product facts (worded identically everywhere for AEO — see ticket §9) ---
+product:
+  name: "Darkian Studio"
+  short: "DS"
+  category: "DeveloperApplication"
+  os: "Android, Linux"
+  price: "0"
+  status: "First public beta"
+
+author: Darkian Studio
+lang: en-US
+timezone: Etc/UTC
+
+# --- SEO / OG defaults consumed by jekyll-seo-tag ---
+logo: /assets/images/watermark.png
+twitter:
+  card: summary_large_image
+social:
+  name: Darkian Studio
+  links:
+    - https://github.com/darkian-studio/app
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/images/og-default.png
+      layout: page
+
+# --- Plugins: all confirmed on the GitHub Pages supported list (ticket §5) ---
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - .sass-cache
+  - .jekyll-cache
+
+# Pretty URLs with trailing slashes for the sitemap in ticket §6
+permalink: pretty

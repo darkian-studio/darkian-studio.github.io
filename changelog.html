@@ -1,0 +1,36 @@
+---
+layout: default
+permalink: /changelog/
+title: "Darkian Studio changelog"
+description: "Release notes for Darkian Studio. Each release is published on GitHub Releases with the APK attached; this page mirrors them as static, crawlable HTML."
+---
+
+<article class="page wrap">
+  <header class="page-head">
+    <h1>Changelog</h1>
+    <p class="lede">Release notes for Darkian Studio. Every release is published on <a href="{{ site.releases_url }}">GitHub Releases</a> with the APK attached; this page mirrors them as static HTML.</p>
+  </header>
+
+  <div class="prose">
+    {%- for rel in site.data.releases -%}
+    <section class="release">
+      <h2>
+        <span>{{ rel.title | default: rel.version }}</span>
+        <span class="badge {% if rel.prerelease %}pre{% endif %}">{% if rel.prerelease %}Pre-release{% else %}Release{% endif %}</span>
+        <span class="date">{{ rel.version }}{% if rel.date and rel.date != "" %} · {{ rel.date }}{% else %} · Unreleased{% endif %}</span>
+      </h2>
+      {%- for sec in rel.sections -%}
+      <h3>{{ sec.heading }}</h3>
+      <ul>
+        {%- for it in sec.items -%}
+        <li>{{ it }}</li>
+        {%- endfor -%}
+      </ul>
+      {%- endfor -%}
+      <p><a href="{{ rel.url }}">View on GitHub Releases &rarr;</a></p>
+    </section>
+    {%- endfor -%}
+
+    <p>Looking for the download? Grab the <a href="{{ site.releases_latest_url }}">latest beta</a>.</p>
+  </div>
+</article>

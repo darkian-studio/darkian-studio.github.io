@@ -1,0 +1,31 @@
+---
+layout: default
+---
+<div class="docs-shell wrap">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <input type="checkbox" id="docs-nav-toggle" class="docs-nav-toggle">
+    <label for="docs-nav-toggle" class="docs-nav-label">Documentation menu</label>
+    <nav class="docs-nav">
+      {%- for group in site.data.docs_nav -%}
+      <p class="docs-nav-group">{{ group.title }}</p>
+      <ul>
+        {%- for item in group.items -%}
+        <li>
+          <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        </li>
+        {%- endfor -%}
+      </ul>
+      {%- endfor -%}
+    </nav>
+  </aside>
+
+  <article class="docs-content">
+    <header class="page-head">
+      <h1>{{ page.title }}</h1>
+      {%- if page.lede -%}<p class="lede">{{ page.lede }}</p>{%- endif -%}
+    </header>
+    <div class="prose">
+      {{ content }}
+    </div>
+  </article>
+</div>

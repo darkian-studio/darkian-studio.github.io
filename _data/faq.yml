@@ -1,0 +1,68 @@
+# Q&A source of truth — rendered as HTML and as FAQPage JSON-LD on /faq/.
+# Each answer leads with one direct sentence, then elaboration (AEO habit, ticket §9).
+# HTML is allowed in `answer` (kept simple: <p>, <a>, <code>).
+
+- q: What is Darkian Studio?
+  answer: >
+    <p>Darkian Studio (DS) is a real, mobile-first IDE that runs on Android and Linux.</p>
+    <p>It brings a code editor, integrated terminal, Language Server Protocol (LSP) support, debugging, and git into a single app, powered by a Termux or system runtime reached over a bridge.</p>
+
+- q: Is Darkian Studio free?
+  answer: >
+    <p>Yes — Darkian Studio is free during its beta.</p>
+    <p>It is distributed as an Android APK through <a href="https://github.com/darkian-studio/app/releases">GitHub Releases</a>, with no accounts, payments, or Play Store listing.</p>
+
+- q: Do I need Termux to use it?
+  answer: >
+    <p>On Android, yes — DS drives a Termux runtime on the device.</p>
+    <p>Install Termux from F-Droid (the Play Store build is outdated and breaks DS), then run the setup command DS shows during onboarding. On Linux or macOS, DS can use a system runtime or a remote host instead.</p>
+
+- q: Can it use my existing VS Code extensions?
+  answer: >
+    <p>Partly — DS runs VS Code-compatible extensions from the Open VS X marketplace against a subset of the <code>vscode</code> API.</p>
+    <p>Availability in Open VS X does not guarantee compatibility: extensions that contribute diagnostics, commands, configuration, or file-system access work well, while extensions that depend on custom editor UI, an integrated terminal, or the debug/SCM views have unimplemented surface area. Microsoft-exclusive extensions are blocked.</p>
+
+- q: Is Darkian Studio on the Play Store?
+  answer: >
+    <p>No — there is no Play Store build.</p>
+    <p>Official APKs ship only via <a href="https://github.com/darkian-studio/app/releases">GitHub Releases</a>. If you obtained a DS APK from anywhere else, do not trust it.</p>
+
+- q: Does dsterm work on Windows?
+  answer: >
+    <p>Connecting a DS workspace to a Windows-hosted <code>dsterm</code> endpoint is not supported in this beta.</p>
+    <p>Use Termux or a Linux/macOS host for remote runtimes instead.</p>
+
+- q: How is Darkian Studio different from VS Code?
+  answer: >
+    <p>VS Code is a desktop-first editor running directly on a full OS with the complete <code>vscode</code> API; DS is mobile-first and routes the editor, terminal, LSP, debugger, git, and extensions through one runtime reached over a bridge.</p>
+    <p>See the full <a href="/docs/vs-vscode/">DS vs VS Code comparison</a>.</p>
+
+- q: How is Darkian Studio different from Acode?
+  answer: >
+    <p>Acode is a lightweight Android editor with a focused PTY/LSP backend; DS uses one shared runtime for the editor, LSP, DAP debugging, git, and extensions.</p>
+    <p>DS adds a built-in LSP client and structured (DAP) debugging where Acode offers LSP via plugins and a JavaScript console. See the full <a href="/docs/vs-acode/">DS vs Acode comparison</a>.</p>
+
+- q: Can I run it against a remote Linux or macOS machine instead of the phone?
+  answer: >
+    <p>Yes — DS's bridge can connect to a Linux or macOS host so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime.</p>
+    <p>Windows-hosted remote runtimes are unsupported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes.</p>
+
+- q: What can Darkian Studio do?
+  answer: >
+    <p>DS provides a code editor, integrated terminal, built-in LSP client, DAP debugging, git, and an extension host — all against one runtime.</p>
+    <p>Because they share the runtime, they share the same <code>PATH</code>, filesystem, and installed SDKs, so a package you install in the terminal is immediately available to the language server and debugger.</p>
+
+- q: How do I install Darkian Studio?
+  answer: >
+    <p>Install Termux from F-Droid, download the latest DS APK from GitHub Releases, run the one setup command in Termux, then tap Verify setup.</p>
+    <p>The setup script is runtime-aware for Termux, Linux, and macOS. See the full <a href="/install/">install guide</a>.</p>
+
+- q: How do I report a bug or get support?
+  answer: >
+    <p>Copy your Diagnostics logs (and any crash report) from Settings → Diagnostics, then file a bug using the GitHub bug-report template.</p>
+    <p>You don't need ADB or Flutter. See <a href="/docs/troubleshooting/">Troubleshooting</a> for the exact steps, or ask in <a href="https://github.com/darkian-studio/app/discussions">Discussions</a>.</p>
+
+- q: What are the known limitations of the beta?
+  answer: >
+    <p>This is the first public beta: Windows-hosted remote runtimes are unsupported, the setup script provisions the local host only, the extension host is opt-in and may be limited on low-end devices, and beta releases may ship breaking changes.</p>
+    <p>The current list is kept in <a href="/docs/troubleshooting/#known-limitations">Troubleshooting</a>.</p>

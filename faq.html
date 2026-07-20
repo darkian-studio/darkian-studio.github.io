@@ -1,0 +1,41 @@
+---
+layout: default
+permalink: /faq/
+title: "Darkian Studio FAQ"
+description: "Frequently asked questions about Darkian Studio: what it is, whether it's free, whether you need Termux, VS Code extension compatibility, Play Store availability, remote runtimes, and more."
+---
+
+<article class="page wrap">
+  <header class="page-head">
+    <h1>Frequently asked questions</h1>
+    <p class="lede">Direct answers about Darkian Studio — what it is, how to install it, extension compatibility, remote runtimes, and support.</p>
+  </header>
+
+  <div class="prose">
+    {%- for item in site.data.faq -%}
+    <div class="faq-item">
+      <h2>{{ item.q }}</h2>
+      <div class="answer">{{ item.answer }}</div>
+    </div>
+    {%- endfor -%}
+  </div>
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for item in site.data.faq -%}
+    {
+      "@type": "Question",
+      "name": {{ item.q | jsonify }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ item.answer | strip_html | normalize_whitespace | strip | jsonify }}
+      }
+    }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}
+</script>

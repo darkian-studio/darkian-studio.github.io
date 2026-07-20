@@ -1,0 +1,29 @@
+# Changelog data — rendered as static HTML at /changelog/ (NOT a client-side fetch),
+# so crawlers and answer-engine bots that don't run JS can read it (ticket §7, §9).
+#
+# Keep this in sync with every GitHub Release. To regenerate from the Releases API:
+#   gh api repos/darkian-studio/app/releases --paginate \
+#     --jq '.[] | {version: .tag_name, name: .name, date: (.published_at // ""), prerelease: .prerelease, url: .html_url, body: .body}'
+# then map the fields into the structure below. Seeded here from the public CHANGELOG.md.
+
+- version: "1.0.0-beta.1"
+  date: ""          # Unreleased at time of writing
+  prerelease: true
+  title: "First public beta"
+  url: "https://github.com/darkian-studio/app/releases"
+  sections:
+    - heading: Added
+      items:
+        - "First public beta of Darkian Studio (Android APK via GitHub Releases)."
+        - "Onboarding runtime setup with a single copy-paste command."
+        - "install.sh setup script, runtime-aware for Termux, Linux, and macOS, with progress/error output and a post-install verification step."
+        - "In-app Check for updates (Settings → About) plus a best-effort startup update check against GitHub Releases."
+        - "In-app runtime verification during onboarding (node / dsterm / code-server)."
+        - "Diagnostics logs and crash reports surfaced entirely inside the app."
+    - heading: Changed
+      items:
+        - "All debugPrint() diagnostics in the app are now routed through the DS logging system so they appear in Diagnostics logs and crash reports."
+    - heading: Known limitations
+      items:
+        - "dsterm remote on Windows is not supported in this beta."
+        - "No Play Store distribution; APKs are GitHub Releases only."
