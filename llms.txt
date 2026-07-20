@@ -26,6 +26,7 @@ Core facts (identical across the site): name "Darkian Studio" (DS); category dev
 
 ## Optional
 
+- [Full documentation (llms-full.txt)]({{ site.url }}/llms-full.txt): The complete site text in one file for LLM ingestion.
 - [Changelog]({{ site.url }}/changelog/): Release notes, mirrored from GitHub Releases.
 - [GitHub repository]({{ site.repo_url }}): Public support and release home.
 - [Latest release]({{ site.releases_latest_url }}): Download the latest beta APK.

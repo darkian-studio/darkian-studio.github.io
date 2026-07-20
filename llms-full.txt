@@ -1,0 +1,705 @@
+# Darkian Studio — Full Documentation (llms-full.txt)
+
+Source: https://darkian-studio.github.io
+This file concatenates the full text of the Darkian Studio site for LLM ingestion.
+
+================================================================
+# Home
+================================================================
+
+First public beta · GitHub Releases only 
+ A real IDE on your phone — not a toy sandbox. 
+ Darkian Studio is a mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host, all running against one real runtime over a bridge — Termux on device, or any Linux/macOS host. 
+
+ Download latest beta 
+ View on GitHub 
+ Read the docs 
+
+ Free during beta. Android APK via GitHub Releases — no Play Store build. 
+
+ How it works 
+ Four steps from a fresh phone to a working development environment. 
+
+ 1 Install Termux Get Termux from F-Droid — the runtime DS drives on Android. 
+ 2 Run one setup command Paste the setup command DS shows during onboarding into Termux. 
+ 3 Verify setup Tap Verify setup in DS; it checks the runtime is ready. 
+ 4 Start coding Open a project and use the editor, terminal, LSP, and debugger. 
+
+ See the full install guide 
+
+ One runtime for everything 
+ Editor, terminal, language servers, debugger, git, and extensions all share the same runtime — the same PATH , filesystem, and SDKs. 
+
+ EDITOR Code editor Syntax highlighting, many languages, and a command palette. 
+ TERMINAL Integrated terminal A full shell through your runtime — Termux on Android. 
+ LSP · DAP LSP & debugging Language intelligence and breakpoint debugging over the bridge. 
+ GIT Git Clone, commit, push, pull, and review changes in a dedicated panel. 
+ EXTENSIONS Extension host A sidecar runtime for optional, VS Code-compatible extensions. 
+ RUNTIME Local or remote Point the bridge at the phone, or a Linux/macOS host over the network. 
+
+ How does it compare? 
+ Same facts as the raw docs, framed for the decision you're actually making. 
+
+ DS vs VS Code 
+ A desktop-first editor on a full OS versus a mobile-first workflow over a runtime bridge, with a partial vscode extension API. 
+ Read the comparison → 
+
+ DS vs Acode 
+ A lightweight mobile editor with a PTY/LSP backend versus DS's single runtime for editor, LSP, debugger, and extensions. 
+ Read the comparison → 
+
+ This is the first public beta. Expect rough edges. Official APKs ship only via GitHub Releases — there is no Play Store build and no other distribution channel. If you obtained a DS APK from elsewhere, do not trust it. See the known limitations before filing a bug.
+
+================================================================
+# Docs Home
+================================================================
+
+Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host all run against one runtime reached over a bridge. Start with install, then take the getting-started tour.
+
+## Get set up
+
+- **[Install]({{ '/install/' | relative_url }})** — install Termux, download the beta APK, run one setup command, verify.
+- **[Getting started]({{ '/docs/getting-started/' | relative_url }})** — a first-run tour: open a project, use the terminal, edit with LSP, debug, and run git.
+
+## Understand it
+
+- **[Architecture]({{ '/docs/architecture/' | relative_url }})** — how one runtime serves the editor, terminal, LSP, debugger, git, and extensions over a bridge.
+- **[dsterm]({{ '/docs/dsterm/' | relative_url }})** — the open-source Rust runtime bridge DS connects to: PTY, LSP/DAP/MCP/extension-host bridges, and command execution.
+
+## Fix it
+
+- **[Troubleshooting]({{ '/docs/troubleshooting/' | relative_url }})** — diagnostics logs, crash reports, what to include in a bug report, and known limitations.
+
+## Compare it
+
+- **[DS vs VS Code]({{ '/docs/vs-vscode/' | relative_url }})** — mobile-first runtime bridge versus a desktop-first editor with the full `vscode` API.
+- **[DS vs Acode]({{ '/docs/vs-acode/' | relative_url }})** — one shared runtime for everything versus a mobile editor with a focused PTY/LSP backend.
+
+## Also useful
+
+- **[FAQ]({{ '/faq/' | relative_url }})** — direct answers to the most common questions.
+- **[Changelog]({{ '/changelog/' | relative_url }})** — what shipped in each release.
+- **[GitHub Releases]({{ site.releases_url }})** · **[Report a bug]({{ site.bug_report_url }})** · **[Discussions]({{ site.discussions_url }})**
+
+================================================================
+# Install
+================================================================
+
+Install Darkian Studio 
+ Install Termux from F-Droid, download the DS beta APK from GitHub Releases, run one setup command, and tap Verify setup . The setup script is runtime-aware for Termux, Linux, and macOS. 
+
+ Official APKs only ship via GitHub Releases . There is no Play Store build and no other distribution channel. If you obtained a DS APK from elsewhere, do not trust it. 
+
+ Android (Termux) 
+ Linux 
+ macOS 
+
+ Android is the primary Darkian Studio platform. DS drives a Termux runtime on the device. 
+
+ Install Termux from F-Droid. The Play Store build is outdated and breaks DS: {{ site.termux_fdroid_url }} 
+ Download the latest DS APK from the Releases page and install it. 
+ Open DS and complete onboarding. On the Run the setup step, copy the command and paste it into Termux:
+
+ Copy 
+ pkg install curl; curl -fsSL https://raw.githubusercontent.com/darkian-studio/app/main/install.sh | bash 
+
+ Tap Verify setup in DS. Once it reports the runtime is ready, you are done. 
+
+ On Linux, the same setup script provisions the runtime using the correct package manager (apt, pacman, or dnf). Run it in your shell: 
+
+ Copy 
+ curl -fsSL https://raw.githubusercontent.com/darkian-studio/app/main/install.sh | bash 
+
+ The script skips already-installed components and verifies the runtime before it exits. You can then connect a DS workspace to this Linux host as a remote runtime. 
+
+ On macOS, the setup script uses Homebrew to provision the runtime. Run it in Terminal: 
+
+ Copy 
+ curl -fsSL https://raw.githubusercontent.com/darkian-studio/app/main/install.sh | bash 
+
+ The script installs missing components, skips what's present, and verifies the runtime before exiting. You can then connect a DS workspace to this macOS host as a remote runtime. 
+
+ The setup script is runtime aware : it uses the correct commands for Termux, Linux (apt/pacman/dnf), and macOS (Homebrew), skips already-installed components, and verifies the result before exiting. 
+
+ If Verify setup fails 
+ If the runtime doesn't come up or verification fails, head to Troubleshooting for diagnostics steps and known limitations. Note that connecting a DS workspace to a Windows-hosted runtime is not supported in this beta — use Termux or a Linux/macOS host. 
+
+ Next steps 
+
+ Getting started — a first-run tour beyond install. 
+ Architecture — how the runtime bridge works. 
+ FAQ — quick answers to common questions.
+
+================================================================
+# Getting Started
+================================================================
+
+This tour assumes you've finished [install]({{ '/install/' | relative_url }}) and that **Verify setup** reports the runtime is ready. Everything below runs against that one runtime, so the terminal, language servers, and debugger all share the same `PATH`, filesystem, and installed SDKs.
+
+> Screenshots and GIFs are placeholders for now and will be added as the beta matures.
+
+## 1. Open a project
+
+DS works against a workspace root — a folder in your runtime. Open an existing folder in Termux (or your runtime host), or clone one with git first (see step 5). Once opened, the file tree, editor, and terminal all point at that same directory.
+
+## 2. Use the terminal
+
+The integrated terminal is a full shell through your runtime — Termux on Android. Anything you install here (a language toolchain, a formatter, a language server) is immediately visible to the editor, LSP, and debugger, because they all share the runtime. That's the point of the one-runtime model.
+
+## 3. Make your first LSP-powered edit
+
+Open a source file in a language whose server is available in the runtime. DS's built-in LSP client provides completion, hover, signature help, go-to-definition/references, rename, formatting, code actions, and diagnostics. If a language server isn't installed yet, install it in the terminal (step 2), then reopen the file.
+
+## 4. Start your first debug session
+
+DS debugs through the Debug Adapter Protocol (DAP): it bridges to a debug adapter running in your runtime and renders breakpoints, variable inspection, watch expressions, the call stack, and a debug console. Set a breakpoint in the gutter, start a session, and step through your code.
+
+## 5. Make your first git action
+
+DS provides git as a dedicated panel: clone, stage, commit, push, pull, stash, branch, resolve conflicts, and view blame — all operating against the runtime's git. Clone a repo to create a workspace, make a change, then stage and commit it.
+
+## Where to go next
+
+- **[Architecture]({{ '/docs/architecture/' | relative_url }})** — why any machine with a terminal can act as DS's backend.
+- **[Troubleshooting]({{ '/docs/troubleshooting/' | relative_url }})** — if a step above didn't work.
+- **[FAQ]({{ '/faq/' | relative_url }})** — quick answers to common questions.
+
+================================================================
+# Architecture
+================================================================
+
+Darkian Studio is a client for a runtime. The editor is the client; the runtime is whatever the bridge points at. Because one runtime backs every core feature, the editor, terminal, language servers, debugger, git, and extensions all share the same environment — the same `PATH`, filesystem, environment variables, and installed SDKs.
+
+## One runtime, reached over a bridge
+
+Instead of bundling a full OS inside the app, DS reaches a runtime over a single bridge connection:
+
+```
+You
+  ↓
+Editor (the DS client)
+  ↓
+Bridge (one connection)
+  ↓
+Runtime  (Termux on Android, or a Linux/macOS host)
+  ↓
+Terminal · LSP · Debugger · Git · Extensions
+```
+
+The terminal, language servers, debugger, extension host, and command execution are all reached through that one connection, which is why they share a single runtime session rather than running as unrelated, disconnected services.
+
+## Why this matters
+
+- **Consistency.** A package you install in the terminal is immediately visible to the language server and the debugger — no separate configuration.
+- **Portability.** The runtime can be the phone itself (Termux) or a remote Linux/macOS host. Point the bridge at a different target and the same editor works against it.
+- **Any terminal can be a backend.** Because the runtime is reached over a bridge, any machine you can run the runtime on can serve as DS's backend.
+
+## Local or remote
+
+On Android, DS drives a Termux runtime on the device. On Linux and macOS, it can use a system runtime or connect to a remote host, so the editor, terminal, language servers, debugger, and extensions all run against that runtime. Connecting to a **Windows-hosted** runtime is not supported in this beta — use Termux or a Linux/macOS host.
+
+## Learn more
+
+- **[Getting started]({{ '/docs/getting-started/' | relative_url }})** — put the model into practice.
+- **[DS vs VS Code]({{ '/docs/vs-vscode/' | relative_url }})** and **[DS vs Acode]({{ '/docs/vs-acode/' | relative_url }})** — how this architecture differs from other tools.
+
+================================================================
+# dsterm
+================================================================
+
+`dsterm` is the runtime bridge described in the [architecture overview]({{ '/docs/architecture/' | relative_url }}). It is a standalone, open-source Rust server ([darkian-studio/dsterm](https://github.com/darkian-studio/dsterm)) that the Darkian Studio editor talks to over a single connection. Because the PTY, language servers, debugger, extension host, and command execution are all reached through `dsterm`, they share one runtime session — the same `PATH`, filesystem, and installed SDKs.
+
+> The standard [install flow]({{ '/install/' | relative_url }}) installs and starts `dsterm` for you. This page is for understanding it, running it manually, or connecting DS to a remote host.
+
+## Features
+
+- **Interactive PTY** — full terminal sessions streamed over WebSocket.
+- **Shell integration** — OSC 633 exit-code tracking for bash, zsh, and fish.
+- **Silent execution** — a non-interactive command runner with stdout/stderr capture.
+- **Streaming execution** — chunked command output streamed over WebSocket.
+- **LSP bridge** — WebSocket proxy to any Language Server Protocol server.
+- **DAP bridge** — WebSocket proxy to any Debug Adapter Protocol server.
+- **MCP bridge** — WebSocket proxy to any Model Context Protocol server.
+- **Extension Host bridge** — a Node.js process bridge with newline-delimited JSON.
+- **AST bridge** — tree-sitter scope analysis for Python, JavaScript, and TypeScript.
+- **Prometheus metrics** — a `/metrics` endpoint with session counters.
+- **TOML configuration** — an optional config file for all tunable parameters.
+- **Graceful shutdown** — drains sessions on SIGTERM / SIGINT.
+- **Automatic updates** — `dsterm update` downloads the latest binary.
+
+## Installation
+
+The DS setup command already installs `dsterm`. To install it directly:
+
+**Termux (Android), Linux, macOS** (bash):
+
+<div class="code-block">
+  <button class="copy-btn" type="button">Copy</button>
+  <pre><code>curl -L https://raw.githubusercontent.com/darkian-studio/dsterm/main/install.sh | bash</code></pre>
+</div>
+
+**Windows** (PowerShell):
+
+<div class="code-block">
+  <button class="copy-btn" type="button">Copy</button>
+  <pre><code>irm https://raw.githubusercontent.com/darkian-studio/dsterm/main/install.ps1 | iex</code></pre>
+</div>
+
+Both installers detect your platform and download the matching prebuilt binary from the latest release:
+
+- **Termux (Android)** — native Android binary (arm64, armv7, x86_64).
+- **Linux** — static musl binary (x86_64, aarch64, armv7) that runs on any distribution without glibc version constraints.
+- **macOS** — native binary (Apple Silicon arm64, Intel x86_64).
+- **Windows** — native binary (x86_64).
+
+When no prebuilt binary matches your platform, the installers fall back to building from source with `cargo` (requires a [Rust toolchain](https://rustup.rs)):
+
+<div class="code-block">
+  <button class="copy-btn" type="button">Copy</button>
+  <pre><code>cargo install --git https://github.com/darkian-studio/dsterm dsterm</code></pre>
+</div>
+
+<div class="callout warn">
+  <p><strong>Note on remote runtimes.</strong> <code>dsterm</code> itself ships a Windows binary, but connecting a <em>Darkian Studio workspace</em> to a Windows-hosted <code>dsterm</code> endpoint is not supported in this beta. Use Termux or a Linux/macOS host for remote runtimes.</p>
+</div>
+
+## Update
+
+`dsterm` checks for updates on every start and notifies you when one is available. To update immediately:
+
+<div class="code-block">
+  <button class="copy-btn" type="button">Copy</button>
+  <pre><code>dsterm update</code></pre>
+</div>
+
+## Usage
+
+```text
+dsterm [OPTIONS] [COMMAND]
+
+Commands:
+  update  Check for and install the latest release
+  lsp     Start a standalone WebSocket LSP bridge
+  help    Print help
+
+Options:
+  -p, --port <PORT>            Server port [default: 8767]
+  -i, --ip                     Bind to LAN IP instead of 127.0.0.1
+  -c, --command <CMD>          Custom shell / program for PTY sessions
+      --config <PATH>          TOML configuration file
+      --allow-any-origin       Disable CORS origin restriction (dangerous)
+  -h, --help                   Print help
+  -V, --version                Print version
+```
+
+### Examples
+
+```bash
+# Start on default port (localhost:8767)
+dsterm
+
+# Start with a custom shell
+dsterm -c /usr/bin/zsh
+
+# Start on LAN IP with a config file
+dsterm -i --config /etc/dsterm.toml
+
+# Standalone LSP proxy for rust-analyzer
+dsterm lsp rust-analyzer
+
+# Check for updates
+dsterm update
+```
+
+<div class="callout danger">
+  <p><strong><code>--allow-any-origin</code> disables the CORS origin restriction.</strong> Only use it on a trusted, private network — it lets any web origin reach your runtime.</p>
+</div>
+
+## Configuration
+
+Create a TOML file and pass it with `--config`. All fields are optional — omitted fields use the defaults shown:
+
+```toml
+[terminal]
+max_scrollback_bytes = 262144   # 256 KB per session
+output_coalesce_ms = 8          # WebSocket flush interval
+read_buffer_bytes = 8192        # PTY read buffer size
+inactivity_timeout_secs = 1800  # Evict idle sessions after 30 min
+
+[bridges]
+kill_timeout_secs = 2           # Grace period when killing bridge processes
+```
+
+## API reference
+
+Full protocol documentation lives in the `dsterm` repository under [`docs/api/`](https://github.com/darkian-studio/dsterm/tree/main/docs/api):
+
+| Document | Contents |
+|---|---|
+| [CLI.md](https://github.com/darkian-studio/dsterm/blob/main/docs/api/CLI.md) | CLI flags and health endpoints |
+| [TERMINAL.md](https://github.com/darkian-studio/dsterm/blob/main/docs/api/TERMINAL.md) | Interactive PTY API |
+| [EXECUTE_COMMAND.md](https://github.com/darkian-studio/dsterm/blob/main/docs/api/EXECUTE_COMMAND.md) | `POST /execute-command` |
+| [SILENT_EXECUTION.md](https://github.com/darkian-studio/dsterm/blob/main/docs/api/SILENT_EXECUTION.md) | Silent exec + streaming |
+| [BRIDGES.md](https://github.com/darkian-studio/dsterm/blob/main/docs/api/BRIDGES.md) | LSP / DAP / MCP / Extension Host bridges |
+| [AST.md](https://github.com/darkian-studio/dsterm/blob/main/docs/api/AST.md) | AST scope endpoint |
+
+## Observability
+
+`GET /metrics` returns Prometheus-compatible metrics:
+
+```text
+# HELP dsterm_terminal_sessions_total Terminal sessions created since startup
+# TYPE dsterm_terminal_sessions_total counter
+dsterm_terminal_sessions_total 42
+# HELP dsterm_terminal_sessions_active Currently active terminal sessions
+# TYPE dsterm_terminal_sessions_active gauge
+dsterm_terminal_sessions_active 3
+```
+
+## Building from source
+
+```bash
+git clone https://github.com/darkian-studio/dsterm.git
+cd dsterm
+cargo build --release
+# Binary: target/release/dsterm
+```
+
+A Rust stable toolchain is required.
+
+## Related
+
+- **[Architecture]({{ '/docs/architecture/' | relative_url }})** — how DS uses the bridge.
+- **[Install]({{ '/install/' | relative_url }})** — the standard setup that installs `dsterm` automatically.
+- **[dsterm on GitHub](https://github.com/darkian-studio/dsterm)** — source, releases, and issues.
+
+================================================================
+# Troubleshooting
+================================================================
+
+DS keeps its own logs and crash reports, so you can collect everything a maintainer needs to reproduce an issue from inside the app.
+
+## How to attach diagnostics / logs
+
+DS keeps its own logs and crash reports — you do **not** need ADB or Flutter.
+
+1. Open **Settings → Diagnostics → Diagnostics logs**.
+2. Use the **copy** action (top bar) to copy the full log buffer.
+3. If the app crashed, also open **Settings → Diagnostics → Crash reports** and copy the relevant report.
+4. Paste both into the bug report, or attach them as files.
+
+You can redact paths/identifiers; please keep timestamps and error messages intact — they are what we use to triage.
+
+## What to include in a bug report
+
+Before filing, gather the information above so maintainers can reproduce quickly, then open the bug report:
+
+- **[Open the Bug report template]({{ site.bug_report_url }})** and paste in your diagnostics logs and any crash report.
+- Include your DS version and platform. Check your version in-app via **Settings → About → Check for updates**.
+- Keep timestamps and error text intact; redact only sensitive paths or identifiers.
+
+Requesting something instead? Use the **[Feature request template]({{ site.feature_request_url }})**, or start a thread in **[Discussions]({{ site.discussions_url }})**.
+
+## Known limitations
+
+These are the known limitations of the first public beta, kept in sync with the project README:
+
+- **`dsterm` remote on Windows fails.** Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta; use Termux or a Linux/macOS host for remote runtimes.
+- The setup script provisions the runtime on the **device/local host** only.
+- Extension host features are opt-in and may be limited on low-end devices.
+- Beta tags may ship with breaking changes between releases.
+
+## Still stuck?
+
+- Re-read the **[install steps]({{ '/install/' | relative_url }})** and re-run the setup command — it's idempotent and skips already-installed components.
+- Confirm you installed **Termux from F-Droid**, not the Play Store build (which is outdated and breaks DS).
+- Confirm your APK came from **[GitHub Releases]({{ site.releases_url }})** — no other source is trusted.
+
+================================================================
+# FAQ
+================================================================
+
+Frequently asked questions 
+ Direct answers about Darkian Studio — what it is, how to install it, extension compatibility, remote runtimes, and support. 
+
+ {%- for item in site.data.faq -%}
+
+ {{ item.q }} 
+ {{ item.answer }} 
+
+ {%- endfor -%}
+
+================================================================
+# DS vs VS Code
+================================================================
+
+> Versions compared: Darkian Studio 1.0.0-beta (first public beta, July 2026) and Visual Studio Code 1.129.0 (released July 15, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); VS Code capabilities reflect the 1.129 release and its public documentation.
+
+## At a glance
+
+| | Darkian Studio | VS Code |
+|---|---|---|
+| Form factor | Mobile-first (Android, Linux) | Desktop-first (Windows/macOS/Linux) |
+| Runtime | One runtime reached over a bridge (`dsterm`) | The host OS directly |
+| Extension API | Partial `vscode` API surface (Open VS X) | Full `vscode` API (VS Code Marketplace) |
+| Debugging | DAP bridge to adapters in the runtime | DAP, first-class |
+| Remote development | `dsterm` to Linux/macOS; file remotes (SFTP/FTP/WebDAV) | First-class (Remote-SSH, Containers, WSL) |
+| Runs on Android | ✅ | ❌ |
+| Price | Free during beta (GitHub Releases APK) | Free (open source, MIT) |
+
+## Executive summary
+
+Visual Studio Code is a mature, desktop-first code editor and development environment for Windows, macOS, and Linux, built on Electron. It runs extensions in a dedicated Extension Host process against the complete `vscode` API and connects to remote machines through first-party remote extensions. Darkian Studio is a mobile-first development environment that runs on Android and Linux. Its editor, terminal, language intelligence, debugger, Git, and extensions all communicate through one runtime abstraction reached through `dsterm`, a Rust server that bridges PTY, language servers, debug adapters, and an extension host over a single port. The two tools overlap on editing, Git, debugging, language intelligence, and extensibility, but they target different form factors and workflows: VS Code assumes a desktop with a full OS and the full extension API, while DS assumes a phone or tablet where the "machine" is a runtime reached over a bridge and where the `vscode` API is a partial surface. DS is not trying to reinvent the editor — it aims to bring a VS Code-like workflow to Android and Linux.
+
+## How each tool works
+
+```
+Developer
+  ↓
+Editor (Monaco in VS Code; web editor in DS)
+  ↓
+Runtime bridge (Extension Host process in VS Code; dsterm in DS)
+  ↓
+Runtime (the host OS directly in VS Code; Termux or a Linux/macOS host in DS)
+  ↓
+Git / LSP / debugger / extensions
+```
+
+| | VS Code | Darkian Studio |
+|---|---|---|
+| Editing | Monaco editor (in-app) | Code editor (in-app web view) |
+| Extension runtime | Dedicated Extension Host process with the full `vscode` API | Node.js `ds-extension-host` running a `vscode`-API subset |
+| Runtime | The host operating system directly | Termux on Android, or a `dsterm` host on Linux/macOS |
+| Language intelligence | Built-in LSP client | Built-in LSP client against runtime or extension-host servers |
+| Debugger | DAP, first-class | DAP bridge to debug adapters in the runtime |
+| Extensions | VS Code Marketplace (first-party + community) | Open VS X marketplace (VS Code-compatible) + native plugins |
+| Remote development | First-class (Remote-SSH, Containers, WSL) | `dsterm` bridge to Linux/macOS hosts; SFTP/FTP/WebDAV file remotes |
+
+## Architectural differences
+
+### Desktop-first vs mobile-first
+
+VS Code is designed for a desktop or laptop with a mouse, physical keyboard, and large display. Its UI, layouts, and interaction model assume that environment. Darkian Studio is designed for touch input on Android and for Linux desktops, with an interface built around panes, a command palette, and an on-screen special-keys bar rather than a desktop window manager.
+
+### One runtime for everything
+
+In DS, the editor, terminal, Git, LSP servers, debugger, and extensions all communicate through one runtime abstraction. That means they share one environment: the same `PATH`, the same filesystem, the same environment variables, the same installed SDKs, and the same Python (or other) interpreter. A package you install in the terminal is visible to the language server and the debugger without additional configuration. VS Code also runs these against one host OS, but it reaches that host through the normal process model and a separate Extension Host process rather than a single bridge server, and its remote model runs an entire separate VS Code instance on the remote machine.
+
+### Runtime model
+
+VS Code runs as a native desktop application and executes tooling directly on the host operating system. Darkian Studio does not bundle a full OS runtime inside the app. On Android it drives a Termux environment through a local bridge; on Linux/macOS it can use a system runtime or a `dsterm` host. The editor, terminal, LSP servers, debugger, and extensions all communicate through that runtime, reached through `dsterm` — a multiplexed endpoint where the PTY, LSP, DAP, extension host, and execution features are all reached through one connection, which is what lets the editor, terminal, language servers, debugger, and extensions share a single runtime session.
+
+### Extension compatibility
+
+VS Code runs extensions in a dedicated Extension Host process against the complete `vscode` API, with a centralized Marketplace of tens of thousands of extensions including first-party Microsoft language and remote extensions. Darkian Studio integrates the Open VS X marketplace as its extension backend, so users can browse and install VS Code-compatible extensions (`.vsix`) directly, and it runs these through an extension host (`ds-extension-host`) that implements a subset of the `vscode` API.
+
+Important nuance: **availability of an extension in Open VS X does not guarantee compatibility.** Compatibility depends on which portions of the `vscode` API the extension actually uses.
+
+- **Works well:** extensions that contribute diagnostics, commands, configuration, or file-system access — including many LSP-activator and static-only extensions (themes, grammars, snippets, languages).
+- **Limited:** extensions whose value lives in custom editor UI, integrated terminals, or the debug/SCM views have large unimplemented surface area.
+- Microsoft-exclusive extensions (Remote-SSH, Remote-Containers, WSL, Live Share, Codespaces) are blocked by an allow/deny list.
+- The implemented API surface will expand over time; today's limits are not a permanent ceiling.
+
+### Remote runtimes
+
+VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux or macOS host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes.
+
+## Feature comparison
+
+Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
+
+| Capability | Darkian Studio (1.0.0-beta) | VS Code (1.129.0) |
+|---|---|---|
+| Multi-file editing with tabs | ✅ | ✅ |
+| Syntax highlighting (many languages) | ✅ | ✅ |
+| Command palette | ✅ | ✅ |
+| Find / replace in editor | ✅ | ✅ |
+| Minimap | ✅ | ✅ |
+| Diff editor | ✅ | ✅ |
+| Git blame in editor | ✅ | ✅ (via extension) |
+| Integrated terminal | ✅ (dsterm-backed) | ✅ (native PTY) |
+| Extension-provided terminal in the IDE | ❌ (host terminal is inert) | ✅ |
+| Built-in LSP client | ✅ | ✅ |
+| LSP: completion / hover / signature help | ✅ | ✅ |
+| LSP: definition / references / implementation | ✅ | ✅ |
+| LSP: rename / formatting / code actions | ✅ | ✅ |
+| LSP: diagnostics / problems panel | ✅ | ✅ |
+| Debugging (DAP: breakpoints, variables, watch, call stack) | ✅ | ✅ |
+| Git: clone / commit / push / pull / stash / branch | ✅ | ✅ |
+| Git: conflict resolution UI | ✅ | ✅ (via extension) |
+| Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (VS Code Marketplace) |
+| VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ✅ (full API) |
+| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes; Windows unsupported | ✅ first-class |
+| Multi-root workspaces | ⚠️ single workspace root in beta | ✅ |
+| AI agent / Copilot integration | ❌ not in this beta | ✅ |
+| Runs on Android | ✅ | ❌ |
+| Runs on Windows/macOS/Linux desktop | ⚠️ Linux only | ✅ |
+| Remote runtime (connect to a host) | ✅ (dsterm to Linux/macOS) | ✅ |
+
+## When to choose VS Code
+
+- You are on a Windows, macOS, or Linux desktop and want the deepest, most mature extension ecosystem with the full `vscode` API.
+- You need first-class remote development to a Windows or Linux box via SSH, Containers, or WSL.
+- You work in very large monorepos where indexing, multi-root workspaces, and native performance matter.
+- You rely on Copilot agent mode or other Microsoft-first features.
+- You want zero setup: no runtime provisioning step.
+
+## When to choose Darkian Studio
+
+- You want to code from an Android phone or tablet with a real runtime, not a stripped-down mobile editor.
+- You want a development environment tethered to a genuine shell (Termux or a `dsterm` host) rather than a simulated sandbox.
+- You want language intelligence and debugging integrated against the same runtime your terminal uses — one `PATH`, filesystem, and set of SDKs.
+- You want to install VS Code-compatible extensions from Open VS X, understanding the extension API is a partial surface.
+- You prefer distribution through GitHub Releases with in-app update checks.
+
+Ready to try it? **[Install Darkian Studio]({{ '/install/' | relative_url }})** or read the **[architecture overview]({{ '/docs/architecture/' | relative_url }})**.
+
+================================================================
+# DS vs Acode
+================================================================
+
+> Versions compared: Darkian Studio 1.0.0-beta (first public beta, July 2026) and Acode 1.12.6 (released June 18, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); Acode capabilities were verified against the Acode and `acodex_server` (`axs`) source repositories.
+
+## At a glance
+
+| | Darkian Studio | Acode |
+|---|---|---|
+| Focus | Full mobile IDE (editor + LSP + debugger + git + extensions) | Lightweight mobile code editor |
+| Runtime bridge | `dsterm`: PTY, LSP, DAP, extension host, execution | `axs`: PTY + stdio→WS LSP proxy |
+| Language intelligence | Built-in LSP client | LSP installed as plugins |
+| Debugging | DAP (breakpoints, variables, watch, call stack) | Interactive JS console only |
+| Extensions | Open VS X (VS Code-compatible, partial API) | Community JS plugins |
+| Distribution | GitHub Releases APK (beta) | Play Store, F-Droid, GitHub (MIT) |
+
+## Executive summary
+
+Acode is a lightweight, open-source code editor and web IDE for Android, built on the Ace editor. It is designed for editing and managing code on a phone, with a terminal backed by a Rust PTY server (`axs`), Git/SSH support, and a community plugin store. Darkian Studio is a mobile-first development environment that runs on Android and Linux. Its editor, terminal, language intelligence, debugger, Git, and extensions all operate against one runtime reached through `dsterm`, a Rust server that bridges PTY, language servers, debug adapters, and an extension host over a single port. The two tools share the Android stage but differ in architecture: Acode layers IDE conveniences on top of a mobile editor, while DS routes every core function through one runtime abstraction.
+
+## How each tool works
+
+```
+Developer
+  ↓
+Editor (Ace in Acode; web editor in DS)
+  ↓
+Runtime bridge (Acode plugin layer → axs; DS → dsterm)
+  ↓
+Runtime (the shell environment axs / dsterm talks to)
+  ↓
+Git / LSP / terminal  (DS also routes debugger and extensions here)
+```
+
+| | Acode | Darkian Studio |
+|---|---|---|
+| Editing | Ace editor (in-app web view) | Code editor (in-app web view) |
+| Runtime bridge | `axs` (Rust): PTY over WebSocket + stdio→WS LSP proxy | `dsterm` (Rust): PTY, LSP bridge, DAP bridge, extension-host bridge, execution |
+| Runtime | `axs` talks to the shell it is configured to reach (e.g. Alpine via proot) | Termux on Android, or a `dsterm` host on Linux/macOS |
+| Language intelligence | LSP installed as plugins, bridged to `axs` | Built-in LSP client against runtime or extension-host servers |
+| Debugger | Interactive JavaScript console only | DAP bridge to debug adapters in the runtime |
+| Extensions | Acode community plugins (JavaScript addons) | Open VS X extensions run through a `vscode`-API host |
+
+## Architectural differences
+
+### Runtime bridge scope
+
+`axs` (the backend Acode uses) is a focused Rust server: it serves a PTY over WebSocket and, as a separate subcommand, proxies a stdio language server to WebSocket. It does not itself host a debugger, an extension host, or Git; those live in the Acode app and talk to `axs` only for the terminal and the LSP transport.
+
+`dsterm` (the backend DS uses) is a broader Rust server. Beyond the PTY and an LSP bridge, it also exposes a DAP bridge (proxy to any Debug Adapter Protocol server), an extension-host bridge, a Model Context Protocol bridge, and silent/streaming command execution. Crucially, `dsterm` is a multiplexed endpoint rather than a collection of unrelated bridges: every feature is reached through one connection, which is why the terminal, language servers, debugger, extension host, and command execution all share a single runtime session.
+
+### One runtime for everything
+
+In DS, the editor, terminal, Git, LSP servers, debugger, and extensions all share one environment: the same `PATH`, filesystem, environment variables, installed SDKs, and interpreter. A package you install in the terminal is visible to the language server and the debugger without extra configuration. In Acode, the terminal and an LSP server can run in the same `axs` environment, but the debugger is only the in-editor JavaScript console, and extensions are separate JavaScript addons that don't share a single hosted runtime the way DS's extension host does.
+
+### Language intelligence
+
+Acode provides completion and IntelliSense via LSP through community plugins — you install and configure a language server per language. Darkian Studio includes a **built-in** LSP client: completion, hover, signature help, go-to-definition/references/implementation, rename, formatting, code actions, diagnostics, folding, semantic tokens, and inlay hints, handled against language servers running in the runtime or the extension host. In both, the language servers themselves still need to be available in the runtime.
+
+### Debugging
+
+Acode offers an interactive JavaScript console for evaluating and debugging JS — a single useful feature, not a general debugger. Darkian Studio debugs through the Debug Adapter Protocol: `dsterm` proxies any DAP adapter over WebSocket, and DS renders breakpoints, variable inspection, watch expressions, the call stack, and a debug console — so it can debug any language that ships a standard DAP adapter.
+
+### Extensions and compatibility
+
+Acode has a community Plugin Store of JavaScript addons written against Acode's own plugin API. Darkian Studio integrates the Open VS X marketplace, so users can browse and install VS Code-compatible extensions (`.vsix`), run through an extension host (`ds-extension-host`) that implements a subset of the `vscode` API.
+
+Important nuance: **availability of an extension in Open VS X does not guarantee compatibility.** Compatibility depends on which portions of the `vscode` API the extension actually uses. Extensions that contribute diagnostics, commands, configuration, or file-system access work; those that depend on the editor surface, a built-in terminal, the debug view, or SCM UI will not behave as in VS Code. Microsoft-exclusive remote extensions are blocked.
+
+### Project management
+
+Acode manages files and projects with an in-app file browser, FTP/SFTP, and GitHub sync. Darkian Studio includes workspace roots, trusted workspaces, tasks, and test runners (pytest, Flutter, Cargo collectors) as project-level structures.
+
+## Feature comparison
+
+Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
+
+| Capability | Darkian Studio (1.0.0-beta) | Acode (1.12.6) |
+|---|---|---|
+| Multi-file editing with tabs | ✅ | ✅ |
+| Syntax highlighting (many languages) | ✅ | ✅ |
+| Command palette | ✅ | ✅ |
+| Find / replace (including all files) | ✅ | ✅ (all-files search is beta) |
+| Minimap | ✅ | ❌ |
+| Integrated terminal | ✅ (dsterm-backed) | ✅ (axs PTY, Alpine proot, no root) |
+| Built-in LSP client | ✅ | ⚠️ installed as plugins |
+| Debugging (DAP: breakpoints, variables, watch, stack) | ✅ | ⚠️ JS console only |
+| Interactive JS console | ❌ | ✅ |
+| Git: clone / commit / push / pull / branch | ✅ | ✅ |
+| Git: conflict resolution UI | ✅ | ⚠️ basic |
+| Git: stash | ✅ | ⚠️ via tooling |
+| Git: blame | ✅ | ⚠️ via tooling |
+| SSH / remote file access | ✅ (SFTP/FTP/FTPS/WebDAV, dsterm) | ✅ (SSH, FTP/SFTP) |
+| Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (community Plugin Store) |
+| VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ❌ |
+| Test runner (pytest / Flutter / Cargo) | ✅ | ❌ |
+| Tasks / build automation | ✅ | ⚠️ via plugins |
+| Trusted workspace gating | ✅ | ❌ |
+| Runs on Android | ✅ | ✅ |
+| Runs on Linux/macOS/Windows desktop | ⚠️ Linux only | ❌ |
+| Remote runtime (connect to a host) | ✅ (dsterm to Linux/macOS) | ⚠️ terminal/LSP remote; editor stays local |
+| Shared runtime for editor/LSP/debugger/extensions | ✅ | ❌ |
+
+## When to choose Acode
+
+- You want a fast, open-source Android editor with minimal setup and a built-in terminal.
+- You do web and scripting work and value the interactive JavaScript console and Emmet.
+- You prefer a turnkey community Plugin Store and a mature Android editing experience.
+- You want an MIT-licensed tool available on the Play Store and F-Droid.
+- You don't need structured (DAP) debugging beyond JavaScript.
+
+## When to choose Darkian Studio
+
+- You want language intelligence as a built-in client capability rather than a plugin you install and configure per language.
+- You need structured debugging (breakpoints, variables, watch, call stack) through a debug-adapter bridge to a real runtime.
+- You want the terminal, language servers, debugger, and extensions to run in the same runtime and share one `PATH`, filesystem, and set of SDKs.
+- You want to install VS Code-compatible extensions from Open VS X, understanding the extension API is a partial surface.
+- You want Git conflict resolution, tasks, and test runners integrated into the workflow.
+
+Ready to try it? **[Install Darkian Studio]({{ '/install/' | relative_url }})** or read the **[architecture overview]({{ '/docs/architecture/' | relative_url }})**.
+
+================================================================
+# Changelog
+================================================================
+
+Changelog 
+ Release notes for Darkian Studio. Every release is published on GitHub Releases with the APK attached; this page mirrors them as static HTML. 
+
+ {%- for rel in site.data.releases -%}
+
+ {{ rel.title | default: rel.version }} 
+ {% if rel.prerelease %}Pre-release{% else %}Release{% endif %} 
+ {{ rel.version }}{% if rel.date and rel.date != "" %} · {{ rel.date }}{% else %} · Unreleased{% endif %} 
+
+ {%- for sec in rel.sections -%}
+ {{ sec.heading }} 
+
+ {%- for it in sec.items -%}
+ {{ it }} 
+ {%- endfor -%}
+
+ {%- endfor -%}
+ View on GitHub Releases → 
+
+ {%- endfor -%}
+
+ Looking for the download? Grab the latest beta .
+
