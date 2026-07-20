@@ -64,6 +64,10 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
 
+sitemap:
+  exclude:
+    - /google4fe5e33f8fdfd068.html
+
 exclude:
   - Gemfile
   - Gemfile.lock
