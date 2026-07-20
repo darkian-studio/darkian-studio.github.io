@@ -164,7 +164,7 @@ code, kbd, pre, samp { font-family: var(--font-mono); font-size: .9em; }
 .section-head p { color: var(--fg-muted); margin: 0; }
 
 /* Steps strip */
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: step; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
 .step { background: var(--canvas-inset); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
 .step .num {
   display: inline-flex; align-items: center; justify-content: center;
