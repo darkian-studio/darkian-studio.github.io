@@ -71,6 +71,8 @@ exclude:
   - vendor
   - .sass-cache
   - .jekyll-cache
+  - google4fe5e33f8fdfd068.html
+  - LAUNCH.md
 
 # Pretty URLs with trailing slashes for the sitemap in ticket §6
 permalink: pretty
