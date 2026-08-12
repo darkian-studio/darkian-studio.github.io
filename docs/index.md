@@ -6,7 +6,7 @@ lede: The Darkian Studio docs cover installing, using, and troubleshooting DS, p
 description: "Darkian Studio documentation: getting started, architecture, troubleshooting, and comparisons with VS Code and Acode."
 ---
 
-Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host all run against one runtime reached over a bridge. Start with install, then take the getting-started tour.
+Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, AI chat, and local offline AI models all run against one runtime reached over a bridge. Start with install, then take the getting-started tour.
 
 ## Get set up
 
@@ -16,6 +16,7 @@ Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, t
 ## Understand it
 
 - **[Architecture]({{ '/docs/architecture/' | relative_url }})** — how one runtime serves the editor, terminal, LSP, debugger, git, and extensions over a bridge.
+- **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, local GGUF models run fully offline, inline completions, and MCP.
 - **[dsterm]({{ '/docs/dsterm/' | relative_url }})** — the open-source Rust runtime bridge DS connects to: PTY, LSP/DAP/MCP/extension-host bridges, and command execution.
 
 ## Fix it

@@ -2,9 +2,9 @@ title: Darkian Studio
 tagline: A real, mobile-first IDE for Android and Linux
 description: >-
   Darkian Studio is a real, mobile-first IDE for Android and Linux with a code
-  editor, integrated terminal, LSP, debugging, git, and an extension host,
-  powered by a Termux or system runtime over a bridge. Free during beta,
-  distributed via GitHub Releases.
+  editor, integrated terminal, LSP, debugging, git, an AI chat agent, and local
+  offline AI models (GGUF), powered by a Termux or system runtime over a bridge.
+  Free during beta, distributed via GitHub Releases.
 
 url: "https://darkian-studio.github.io"
 baseurl: ""

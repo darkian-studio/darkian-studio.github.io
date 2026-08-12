@@ -9,7 +9,7 @@ This file concatenates the full text of the Darkian Studio site for LLM ingestio
 
 First public beta · GitHub Releases only 
  A real IDE on your phone — not a toy sandbox. 
- Darkian Studio is a mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host, all running against one real runtime over a bridge — Termux on device, or any Linux/macOS host. 
+ Darkian Studio is a mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, an AI chat agent, and local offline AI models, all running against one real runtime over a bridge — Termux on device, or any Linux/macOS host. 
 
  Download latest beta 
  View on GitHub 
@@ -28,12 +28,15 @@ First public beta · GitHub Releases only
  See the full install guide 
 
  One runtime for everything 
- Editor, terminal, language servers, debugger, git, and extensions all share the same runtime — the same PATH , filesystem, and SDKs. 
+ Editor, terminal, language servers, debugger, git, AI inference, and extensions all share the same runtime — the same PATH , filesystem, and SDKs. 
 
  EDITOR Code editor Syntax highlighting, many languages, and a command palette. 
  TERMINAL Integrated terminal A full shell through your runtime — Termux on Android. 
  LSP · DAP LSP & debugging Language intelligence and breakpoint debugging over the bridge. 
  GIT Git Clone, commit, push, pull, and review changes in a dedicated panel. 
+ AI CHAT AI chat agent Tool-calling assistant that reads, searches, and runs commands in your project. 
+ LOCAL AI Offline AI models Install GGUF models from Hugging Face and run them fully on-device. 
+ INLINE AI AI completions Fill-in-the-middle code completions through configurable providers. 
  EXTENSIONS Extension host A sidecar runtime for optional, VS Code-compatible extensions. 
  RUNTIME Local or remote Point the bridge at the phone, or a Linux/macOS host over the network. 
 
@@ -54,7 +57,7 @@ First public beta · GitHub Releases only
 # Docs Home
 ================================================================
 
-Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host all run against one runtime reached over a bridge. Start with install, then take the getting-started tour.
+Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, AI chat, and local offline AI models all run against one runtime reached over a bridge. Start with install, then take the getting-started tour.
 
 ## Get set up
 
@@ -64,6 +67,7 @@ Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, t
 ## Understand it
 
 - **[Architecture]({{ '/docs/architecture/' | relative_url }})** — how one runtime serves the editor, terminal, LSP, debugger, git, and extensions over a bridge.
+- **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, local GGUF models run fully offline, inline completions, and MCP.
 - **[dsterm]({{ '/docs/dsterm/' | relative_url }})** — the open-source Rust runtime bridge DS connects to: PTY, LSP/DAP/MCP/extension-host bridges, and command execution.
 
 ## Fix it
@@ -158,8 +162,13 @@ DS debugs through the Debug Adapter Protocol (DAP): it bridges to a debug adapte
 
 DS provides git as a dedicated panel: clone, stage, commit, push, pull, stash, branch, resolve conflicts, and view blame — all operating against the runtime's git. Clone a repo to create a workspace, make a change, then stage and commit it.
 
+## 6. Chat with the AI agent
+
+Open the AI chat and ask the agent to work with your project — it can read and write files, search the workspace, and run commands in your runtime, all against the same trust rules and environment as the terminal. For full privacy, install a GGUF model from the Hugging Face marketplace and chat with it fully offline; see **[AI features]({{ '/docs/ai/' | relative_url }})** for providers and setup.
+
 ## Where to go next
 
+- **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, local models, and inline completions.
 - **[Architecture]({{ '/docs/architecture/' | relative_url }})** — why any machine with a terminal can act as DS's backend.
 - **[Troubleshooting]({{ '/docs/troubleshooting/' | relative_url }})** — if a step above didn't work.
 - **[FAQ]({{ '/faq/' | relative_url }})** — quick answers to common questions.
@@ -168,7 +177,7 @@ DS provides git as a dedicated panel: clone, stage, commit, push, pull, stash, b
 # Architecture
 ================================================================
 
-Darkian Studio is a client for a runtime. The editor is the client; the runtime is whatever the bridge points at. Because one runtime backs every core feature, the editor, terminal, language servers, debugger, git, and extensions all share the same environment — the same `PATH`, filesystem, environment variables, and installed SDKs.
+Darkian Studio is a client for a runtime. The editor is the client; the runtime is whatever the bridge points at. Because one runtime backs every core feature, the editor, terminal, language servers, debugger, git, AI inference, and extensions all share the same environment — the same `PATH`, filesystem, environment variables, and installed SDKs.
 
 ## One runtime, reached over a bridge
 
@@ -183,25 +192,81 @@ Bridge (one connection)
   ↓
 Runtime  (Termux on Android, or a Linux/macOS host)
   ↓
-Terminal · LSP · Debugger · Git · Extensions
+Terminal · LSP · Debugger · Git · AI inference · Extensions
 ```
 
-The terminal, language servers, debugger, extension host, and command execution are all reached through that one connection, which is why they share a single runtime session rather than running as unrelated, disconnected services.
+The terminal, language servers, debugger, AI inference, extension host, and command execution are all reached through that one connection, which is why they share a single runtime session rather than running as unrelated, disconnected services.
 
 ## Why this matters
 
-- **Consistency.** A package you install in the terminal is immediately visible to the language server and the debugger — no separate configuration.
+- **Consistency.** A package you install in the terminal is immediately visible to the language server and the debugger — and a GGUF model you load in DS runs on the same runtime the terminal uses — no separate configuration.
 - **Portability.** The runtime can be the phone itself (Termux) or a remote Linux/macOS host. Point the bridge at a different target and the same editor works against it.
 - **Any terminal can be a backend.** Because the runtime is reached over a bridge, any machine you can run the runtime on can serve as DS's backend.
 
 ## Local or remote
 
-On Android, DS drives a Termux runtime on the device. On Linux and macOS, it can use a system runtime or connect to a remote host, so the editor, terminal, language servers, debugger, and extensions all run against that runtime. Connecting to a **Windows-hosted** runtime is not supported in this beta — use Termux or a Linux/macOS host.
+On Android, DS drives a Termux runtime on the device. On Linux and macOS, it can use a system runtime or connect to a remote host, so the editor, terminal, language servers, debugger, AI, and extensions all run against that runtime. Connecting to a **Windows-hosted** runtime is not supported in this beta — use Termux or a Linux/macOS host.
 
 ## Learn more
 
 - **[Getting started]({{ '/docs/getting-started/' | relative_url }})** — put the model into practice.
+- **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, offline local models, and completions.
 - **[DS vs VS Code]({{ '/docs/vs-vscode/' | relative_url }})** and **[DS vs Acode]({{ '/docs/vs-acode/' | relative_url }})** — how this architecture differs from other tools.
+
+================================================================
+# AI features
+================================================================
+
+Darkian Studio is built AI-first: an assistant, offline models, and inline completions work alongside the editor against the same runtime. That means an AI model you load inside DS has the same access to your runtime as the terminal does — the same `PATH`, filesystem, and installed SDKs.
+
+## AI chat agent
+
+The built-in chat agent is a full assistant, not a single-response chatbot:
+
+- **Tool calling** — it can read and write files, search/grep the workspace, and run commands in the runtime.
+- **Streaming responses** — tokens render as they arrive, with a thinking-mode toggle.
+- **Session persistence** — conversations are saved and can be reopened; messages can be edited and re-sent.
+
+### Providers
+
+DS supports multiple providers for the agent and completions:
+
+- **OpenAI-compatible endpoints** — point it at any provider that exposes an OpenAI-compatible API; OpenRouter, Together, Fireworks, Groq, and Mistral ship preconfigured.
+- **Built-in free provider** — a hosted option bundled with DS that needs no API key, plus an optional free-keyed variant of the same endpoint.
+- **Local endpoints** — Ollama, or a GGUF model loaded in your runtime is exposed as a local provider (see below).
+
+## Local AI models (fully offline)
+
+DS can run the whole stack on-device, with no cloud connection:
+
+1. **Browse the Hugging Face marketplace** inside DS — search models with parameter counts, sizes, and quantisation shown.
+2. **Install a GGUF model** — downloads through the runtime and installs it locally.
+3. **Load and chat** — the runtime's inference server loads the model; the chat agent uses it as its local provider.
+
+Loaded models show live state, parameter counts, quantisation, and resident-memory estimates. Models can be loaded and unloaded from inside the app.
+
+## Inline completions
+
+Fill-in-the-Middle (FIM) completions appear inline as you type:
+
+- **Configurable providers** — each completion provider may use a chat-style or a legacy completion endpoint, so cloud and local models both work.
+- **Per-model control** — providers are configured in the AI settings screen, including model selection and system prompts.
+
+## Model Context Protocol (MCP)
+
+DS is an MCP **client**: it can connect to MCP servers to give the AI agent additional tools and context, alongside its built-in file, search, and command tools.
+
+## Privacy
+
+- Cloud providers only see what you send them via the configured endpoint.
+- Local GGUF models run entirely on your device or your runtime host — nothing leaves the machine.
+- Your provider choice and keys are stored by the app's secure preferences, and each provider may be disabled independently.
+
+## Learn more
+
+- **[Getting started]({{ '/docs/getting-started/' | relative_url }})** — where AI fits in the first-run tour.
+- **[dsterm]({{ '/docs/dsterm/' | relative_url }})** — the runtime bridge that hosts the inference server.
+- **[FAQ]({{ '/faq/' | relative_url }})** — quick answers on AI, offline models, and providers.
 
 ================================================================
 # dsterm
@@ -433,14 +498,16 @@ Frequently asked questions
 # DS vs VS Code
 ================================================================
 
-> Versions compared: Darkian Studio 1.0.0-beta (first public beta, July 2026) and Visual Studio Code 1.129.0 (released July 15, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); VS Code capabilities reflect the 1.129 release and its public documentation.
+> Versions compared: Darkian Studio 1.0.0-beta (first public beta, August 2026) and Visual Studio Code 1.129.0 (released July 15, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); VS Code capabilities reflect the 1.129 release and its public documentation.
 
 ## At a glance
 
 | | Darkian Studio | VS Code |
 |---|---|---|
+| Focus | Full mobile IDE (editor + LSP + debugger + git + extensions + AI) | Desktop IDE (editor + LSP + debugger + git + extensions + Copilot) |
 | Form factor | Mobile-first (Android, Linux) | Desktop-first (Windows/macOS/Linux) |
 | Runtime | One runtime reached over a bridge (`dsterm`) | The host OS directly |
+| AI agent | Built-in chat agent + offline GGUF models | Copilot (built-in agent mode) |
 | Extension API | Partial `vscode` API surface (Open VS X) | Full `vscode` API (VS Code Marketplace) |
 | Debugging | DAP bridge to adapters in the runtime | DAP, first-class |
 | Remote development | `dsterm` to Linux/macOS; file remotes (SFTP/FTP/WebDAV) | First-class (Remote-SSH, Containers, WSL) |
@@ -531,7 +598,9 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ✅ (full API) |
 | Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes; Windows unsupported | ✅ first-class |
 | Multi-root workspaces | ⚠️ single workspace root in beta | ✅ |
-| AI agent / Copilot integration | ❌ not in this beta | ✅ |
+| AI agent / assistant | ✅ built-in chat agent with tool calling (read/write files, search, run commands) | ✅ Copilot agent mode |
+| Offline local AI models | ✅ (GGUF, fully on-device via inference server) | ⚠️ via third-party extensions |
+| AI inline completions | ✅ (FIM through configurable providers) | ✅ Copilot completions |
 | Runs on Android | ✅ | ❌ |
 | Runs on Windows/macOS/Linux desktop | ⚠️ Linux only | ✅ |
 | Remote runtime (connect to a host) | ✅ (dsterm to Linux/macOS) | ✅ |
@@ -549,6 +618,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 - You want to code from an Android phone or tablet with a real runtime, not a stripped-down mobile editor.
 - You want a development environment tethered to a genuine shell (Termux or a `dsterm` host) rather than a simulated sandbox.
 - You want language intelligence and debugging integrated against the same runtime your terminal uses — one `PATH`, filesystem, and set of SDKs.
+- You want a built-in AI chat agent and fully offline local models (GGUF) without a subscription.
 - You want to install VS Code-compatible extensions from Open VS X, understanding the extension API is a partial surface.
 - You prefer distribution through GitHub Releases with in-app update checks.
 
@@ -558,15 +628,16 @@ Ready to try it? **[Install Darkian Studio]({{ '/install/' | relative_url }})** 
 # DS vs Acode
 ================================================================
 
-> Versions compared: Darkian Studio 1.0.0-beta (first public beta, July 2026) and Acode 1.12.6 (released June 18, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); Acode capabilities were verified against the Acode and `acodex_server` (`axs`) source repositories.
+> Versions compared: Darkian Studio 1.0.0-beta (first public beta, August 2026) and Acode 1.12.6 (released June 18, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); Acode capabilities were verified against the Acode and `acodex_server` (`axs`) source repositories.
 
 ## At a glance
 
 | | Darkian Studio | Acode |
 |---|---|---|
-| Focus | Full mobile IDE (editor + LSP + debugger + git + extensions) | Lightweight mobile code editor |
-| Runtime bridge | `dsterm`: PTY, LSP, DAP, extension host, execution | `axs`: PTY + stdio→WS LSP proxy |
+| Focus | Full mobile IDE (editor + LSP + debugger + git + extensions + AI) | Lightweight mobile code editor |
+| Runtime bridge | `dsterm`: PTY, LSP, DAP, extension host, execution, inference | `axs`: PTY + stdio→WS LSP proxy |
 | Language intelligence | Built-in LSP client | LSP installed as plugins |
+| AI agent / offline models | ✅ built-in chat agent + on-device GGUF models | ❌ |
 | Debugging | DAP (breakpoints, variables, watch, call stack) | Interactive JS console only |
 | Extensions | Open VS X (VS Code-compatible, partial API) | Community JS plugins |
 | Distribution | GitHub Releases APK (beta) | Play Store, F-Droid, GitHub (MIT) |
@@ -647,6 +718,9 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Git: conflict resolution UI | ✅ | ⚠️ basic |
 | Git: stash | ✅ | ⚠️ via tooling |
 | Git: blame | ✅ | ⚠️ via tooling |
+| AI chat agent (tool calling) | ✅ | ❌ |
+| Offline local AI models (GGUF) | ✅ | ❌ |
+| AI inline completions | ✅ (FIM via providers) | ❌ |
 | SSH / remote file access | ✅ (SFTP/FTP/FTPS/WebDAV, dsterm) | ✅ (SSH, FTP/SFTP) |
 | Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (community Plugin Store) |
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ❌ |
@@ -671,6 +745,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 - You want language intelligence as a built-in client capability rather than a plugin you install and configure per language.
 - You need structured debugging (breakpoints, variables, watch, call stack) through a debug-adapter bridge to a real runtime.
 - You want the terminal, language servers, debugger, and extensions to run in the same runtime and share one `PATH`, filesystem, and set of SDKs.
+- You want a built-in AI chat agent and offline local models (GGUF) without a subscription.
 - You want to install VS Code-compatible extensions from Open VS X, understanding the extension API is a partial surface.
 - You want Git conflict resolution, tasks, and test runners integrated into the workflow.
 

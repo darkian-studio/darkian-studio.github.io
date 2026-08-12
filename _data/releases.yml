@@ -20,9 +20,17 @@
         - "In-app Check for updates (Settings → About) plus a best-effort startup update check against GitHub Releases."
         - "In-app runtime verification during onboarding (node / dsterm / code-server)."
         - "Diagnostics logs and crash reports surfaced entirely inside the app."
+        - "Branded intro animation on first launch before the welcome screen."
+        - "AI chat agent with tool calling — read/write files, workspace search, and command execution in the runtime — plus streaming responses, thinking-mode toggle, and session persistence."
+        - "AI providers: OpenAI-compatible endpoints, a built-in free provider (no key required), OpenRouter, Together, Fireworks, Groq, Mistral, Ollama, and Local GGUF."
+        - "Local GGUF model marketplace (Hugging Face): browse, install, load, and unload models with parameter counts, quantisation, and memory estimates."
+        - "AI inline completions (fill-in-the-middle) via chat-style and legacy completion endpoints."
+        - "Model Context Protocol (MCP) client for AI tool and context integration."
+        - "Per-model system prompt controls for local chat models."
     - heading: Changed
       items:
         - "All debugPrint() diagnostics in the app are now routed through the DS logging system so they appear in Diagnostics logs and crash reports."
+        - "Darkian Dark is the default first-launch theme palette."
     - heading: Known limitations
       items:
         - "dsterm remote on Windows is not supported in this beta."

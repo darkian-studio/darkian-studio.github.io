@@ -1,28 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0d1117"/>
-      <stop offset="1" stop-color="#161b22"/>
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="1" stop-color="#0d0d0d"/>
     </linearGradient>
+    <radialGradient id="bloom" cx="0.85" cy="0" r="0.9">
+      <stop offset="0" stop-color="#58a6ff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#58a6ff" stop-opacity="0"/>
+    </radialGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#bloom)"/>
   <rect x="0" y="0" width="1200" height="8" fill="#58a6ff"/>
-  <rect x="20" y="20" width="1160" height="590" rx="16" fill="none" stroke="#30363d" stroke-width="2"/>
 
-  <!-- terminal-style prompt motif -->
-  <g transform="translate(80,96)">
+  <!-- terminal-style editor window chrome -->
+  <rect x="60" y="60" width="1080" height="510" rx="16" fill="#0d0d0d" stroke="#2a2a2a" stroke-width="1.5"/>
+  <g transform="translate(96,96)">
     <circle cx="0" cy="0" r="7" fill="#f85149"/>
     <circle cx="24" cy="0" r="7" fill="#d29922"/>
     <circle cx="48" cy="0" r="7" fill="#3fb950"/>
   </g>
+  <text x="156" y="108" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="24" fill="#7d8590">darkian-studio — main.dart</text>
 
-  <image href="watermark.png" x="80" y="150" width="120" height="120"/>
+  <image href="watermark.png" x="96" y="160" width="158" height="125"/>
 
-  <text x="80" y="360" font-size="76" font-weight="700" fill="#f0f6fc">Darkian Studio</text>
-  <text x="80" y="430" font-size="38" font-weight="400" fill="#c9d1d9">A real, mobile-first IDE for Android &amp; Linux</text>
+  <text x="96" y="430" font-size="72" font-weight="700" fill="#e6edf3">Darkian Studio</text>
+  <text x="96" y="495" font-size="36" font-weight="400" fill="#8b949e">A real, mobile-first IDE for Android &amp; Linux</text>
 
   <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-    <text x="80" y="520" font-size="26" fill="#8b949e">editor · terminal · LSP · debugging · git · extensions</text>
-    <text x="80" y="566" font-size="24" fill="#58a6ff">darkian-studio.github.io</text>
+    <text x="96" y="556" font-size="26" fill="#7d8590">editor · terminal · LSP · debugging · git · AI · extensions</text>
+    <text x="96" y="600" font-size="24" fill="#58a6ff">free during beta · github.com/darkian-studio/app</text>
   </g>
 </svg>

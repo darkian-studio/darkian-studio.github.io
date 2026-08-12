@@ -22,6 +22,21 @@
     <p>Partly — DS runs VS Code-compatible extensions from the Open VS X marketplace against a subset of the <code>vscode</code> API.</p>
     <p>Availability in Open VS X does not guarantee compatibility: extensions that contribute diagnostics, commands, configuration, or file-system access work well, while extensions that depend on custom editor UI, an integrated terminal, or the debug/SCM views have unimplemented surface area. Microsoft-exclusive extensions are blocked.</p>
 
+- q: Does Darkian Studio have a built-in AI assistant?
+  answer: >
+    <p>Yes — DS ships an AI chat agent that can read and write files, search your workspace, and run commands in the runtime.</p>
+    <p>It streams responses with a thinking-mode toggle, saves session history, and supports multiple providers: OpenAI-compatible endpoints, a built-in provider (no key required), and your own local models.</p>
+
+- q: Can I run AI models offline?
+  answer: >
+    <p>Yes — DS can run AI models fully offline, with no cloud connection required.</p>
+    <p>Install GGUF models straight from the Hugging Face marketplace inside DS and run them on-device through the runtime's inference server. Load and unload models with live state, parameter counts, quantisation, and memory estimates.</p>
+
+- q: Does Darkian Studio have AI code completions?
+  answer: >
+    <p>Yes — DS provides fill-in-the-middle (FIM) inline code completions through configurable providers.</p>
+    <p>Both chat-style and legacy completion endpoints are supported, so you can point completions at a cloud service or a local model depending on what your runtime can reach.</p>
+
 - q: Is Darkian Studio on the Play Store?
   answer: >
     <p>No — there is no Play Store build.</p>
@@ -49,7 +64,7 @@
 
 - q: What can Darkian Studio do?
   answer: >
-    <p>DS provides a code editor, integrated terminal, built-in LSP client, DAP debugging, git, and an extension host — all against one runtime.</p>
+    <p>DS provides a code editor, integrated terminal, built-in LSP client, DAP debugging, git, an AI chat agent, offline local AI models, and an extension host — all against one runtime.</p>
     <p>Because they share the runtime, they share the same <code>PATH</code>, filesystem, and installed SDKs, so a package you install in the terminal is immediately available to the language server and debugger.</p>
 
 - q: How do I install Darkian Studio?

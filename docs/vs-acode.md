@@ -6,15 +6,16 @@ lede: Acode is a lightweight, open-source Android editor with a focused PTY/LSP 
 description: "Darkian Studio vs Acode: one shared runtime for editor, LSP, debugger, and extensions versus a lightweight Android editor with a focused PTY/LSP backend. Architecture and a feature-by-feature table."
 ---
 
-> Versions compared: Darkian Studio 1.0.0-beta (first public beta, July 2026) and Acode 1.12.6 (released June 18, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); Acode capabilities were verified against the Acode and `acodex_server` (`axs`) source repositories.
+> Versions compared: Darkian Studio 1.0.0-beta (first public beta, August 2026) and Acode 1.12.6 (released June 18, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); Acode capabilities were verified against the Acode and `acodex_server` (`axs`) source repositories.
 
 ## At a glance
 
 | | Darkian Studio | Acode |
 |---|---|---|
-| Focus | Full mobile IDE (editor + LSP + debugger + git + extensions) | Lightweight mobile code editor |
-| Runtime bridge | `dsterm`: PTY, LSP, DAP, extension host, execution | `axs`: PTY + stdio→WS LSP proxy |
+| Focus | Full mobile IDE (editor + LSP + debugger + git + extensions + AI) | Lightweight mobile code editor |
+| Runtime bridge | `dsterm`: PTY, LSP, DAP, extension host, execution, inference | `axs`: PTY + stdio→WS LSP proxy |
 | Language intelligence | Built-in LSP client | LSP installed as plugins |
+| AI agent / offline models | ✅ built-in chat agent + on-device GGUF models | ❌ |
 | Debugging | DAP (breakpoints, variables, watch, call stack) | Interactive JS console only |
 | Extensions | Open VS X (VS Code-compatible, partial API) | Community JS plugins |
 | Distribution | GitHub Releases APK (beta) | Play Store, F-Droid, GitHub (MIT) |
@@ -95,6 +96,9 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Git: conflict resolution UI | ✅ | ⚠️ basic |
 | Git: stash | ✅ | ⚠️ via tooling |
 | Git: blame | ✅ | ⚠️ via tooling |
+| AI chat agent (tool calling) | ✅ | ❌ |
+| Offline local AI models (GGUF) | ✅ | ❌ |
+| AI inline completions | ✅ (FIM via providers) | ❌ |
 | SSH / remote file access | ✅ (SFTP/FTP/FTPS/WebDAV, dsterm) | ✅ (SSH, FTP/SFTP) |
 | Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (community Plugin Store) |
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ❌ |
@@ -119,6 +123,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 - You want language intelligence as a built-in client capability rather than a plugin you install and configure per language.
 - You need structured debugging (breakpoints, variables, watch, call stack) through a debug-adapter bridge to a real runtime.
 - You want the terminal, language servers, debugger, and extensions to run in the same runtime and share one `PATH`, filesystem, and set of SDKs.
+- You want a built-in AI chat agent and offline local models (GGUF) without a subscription.
 - You want to install VS Code-compatible extensions from Open VS X, understanding the extension API is a partial surface.
 - You want Git conflict resolution, tasks, and test runners integrated into the workflow.
 

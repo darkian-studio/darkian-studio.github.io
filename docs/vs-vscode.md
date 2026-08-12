@@ -6,14 +6,16 @@ lede: VS Code is a mature desktop-first editor with the full vscode extension AP
 description: "Darkian Studio vs Visual Studio Code: a mobile-first runtime-bridge IDE versus a desktop-first editor with the full vscode API. Architecture, extensions, remote runtimes, and a feature-by-feature table."
 ---
 
-> Versions compared: Darkian Studio 1.0.0-beta (first public beta, July 2026) and Visual Studio Code 1.129.0 (released July 15, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); VS Code capabilities reflect the 1.129 release and its public documentation.
+> Versions compared: Darkian Studio 1.0.0-beta (first public beta, August 2026) and Visual Studio Code 1.129.0 (released July 15, 2026). DS capabilities were verified against the application and its runtime (`dsterm`); VS Code capabilities reflect the 1.129 release and its public documentation.
 
 ## At a glance
 
 | | Darkian Studio | VS Code |
 |---|---|---|
+| Focus | Full mobile IDE (editor + LSP + debugger + git + extensions + AI) | Desktop IDE (editor + LSP + debugger + git + extensions + Copilot) |
 | Form factor | Mobile-first (Android, Linux) | Desktop-first (Windows/macOS/Linux) |
 | Runtime | One runtime reached over a bridge (`dsterm`) | The host OS directly |
+| AI agent | Built-in chat agent + offline GGUF models | Copilot (built-in agent mode) |
 | Extension API | Partial `vscode` API surface (Open VS X) | Full `vscode` API (VS Code Marketplace) |
 | Debugging | DAP bridge to adapters in the runtime | DAP, first-class |
 | Remote development | `dsterm` to Linux/macOS; file remotes (SFTP/FTP/WebDAV) | First-class (Remote-SSH, Containers, WSL) |
@@ -104,7 +106,9 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ✅ (full API) |
 | Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes; Windows unsupported | ✅ first-class |
 | Multi-root workspaces | ⚠️ single workspace root in beta | ✅ |
-| AI agent / Copilot integration | ❌ not in this beta | ✅ |
+| AI agent / assistant | ✅ built-in chat agent with tool calling (read/write files, search, run commands) | ✅ Copilot agent mode |
+| Offline local AI models | ✅ (GGUF, fully on-device via inference server) | ⚠️ via third-party extensions |
+| AI inline completions | ✅ (FIM through configurable providers) | ✅ Copilot completions |
 | Runs on Android | ✅ | ❌ |
 | Runs on Windows/macOS/Linux desktop | ⚠️ Linux only | ✅ |
 | Remote runtime (connect to a host) | ✅ (dsterm to Linux/macOS) | ✅ |
@@ -122,6 +126,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 - You want to code from an Android phone or tablet with a real runtime, not a stripped-down mobile editor.
 - You want a development environment tethered to a genuine shell (Termux or a `dsterm` host) rather than a simulated sandbox.
 - You want language intelligence and debugging integrated against the same runtime your terminal uses — one `PATH`, filesystem, and set of SDKs.
+- You want a built-in AI chat agent and fully offline local models (GGUF) without a subscription.
 - You want to install VS Code-compatible extensions from Open VS X, understanding the extension API is a partial surface.
 - You prefer distribution through GitHub Releases with in-app update checks.
 

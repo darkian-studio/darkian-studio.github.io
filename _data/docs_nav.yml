@@ -3,6 +3,7 @@
     - { label: Docs home, url: /docs/ }
     - { label: Getting started, url: /docs/getting-started/ }
     - { label: Architecture, url: /docs/architecture/ }
+    - { label: AI features, url: /docs/ai/ }
     - { label: "dsterm (runtime bridge)", url: /docs/dsterm/ }
     - { label: Troubleshooting, url: /docs/troubleshooting/ }
 - title: Comparisons

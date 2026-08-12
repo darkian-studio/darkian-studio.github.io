@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Darkian Studio — a real mobile IDE for Android & Linux"
-description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: code editor, terminal, LSP, debugging, git, and an extension host over a Termux or system runtime. Free during beta, via GitHub Releases."
+description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: code editor, terminal, LSP, debugging, git, an AI chat agent, and local offline AI models (GGUF) over a Termux or system runtime. Free during beta, via GitHub Releases."
 ---
 
 <section class="hero">
@@ -9,7 +9,7 @@ description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: 
     <div class="hero-copy">
       <span class="eyebrow"><span class="dot"></span> First public beta &middot; GitHub Releases only</span>
       <h1>A real IDE on your phone &mdash; not a toy sandbox.</h1>
-      <p class="sub">Darkian Studio is a mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, and an extension host, all running against one real runtime over a bridge &mdash; Termux on device, or any Linux/macOS host.</p>
+      <p class="sub">Darkian Studio is a mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, an AI chat agent, and local offline AI models, all running against one real runtime over a bridge &mdash; Termux on device, or any Linux/macOS host.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="{{ site.releases_latest_url }}">Download latest beta</a>
         <a class="btn" href="{{ site.repo_url }}">View on GitHub</a>
@@ -18,7 +18,34 @@ description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: 
       <p class="hero-note">Free during beta. Android APK via GitHub Releases &mdash; no Play Store build.</p>
     </div>
     <div class="hero-art" aria-hidden="true">
-      <img src="{{ '/assets/images/watermark.png' | relative_url }}" alt="" width="320" height="320" loading="eager" decoding="async">
+      <div class="editor-window">
+        <div class="editor-titlebar">
+          <span class="traffic-lights"><i class="tl tl-red"></i><i class="tl tl-yellow"></i><i class="tl tl-green"></i></span>
+          <span class="editor-title">darkian-studio — main.dart</span>
+        </div>
+        <div class="editor-tabs">
+          <span class="tab"><span class="tab-icon di"></span> project</span>
+          <span class="tab active"><span class="tab-icon fi"></span> main.dart</span>
+          <span class="tab"><span class="tab-icon pf"></span> package.yaml</span>
+        </div>
+        <div class="editor-body">
+          <div class="editor-gutter" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+          <pre class="editor-code"><code><span class="tok kw">import</span> <span class="tok str">'package:darkian/bridge.dart'</span>;
+
+<span class="tok kw">final</span> runtime = <span class="tok kw">await</span> <span class="tok cls">Runtime</span>.<span class="tok fn">connect</span>();
+runtime.terminal.<span class="tok fn">attach</span>();
+
+<span class="tok kw">final</span> file = workspace.<span class="tok fn">open</span>(<span class="tok str">'lib/main.dart'</span>);
+<span class="tok kw">final</span> tokens = file.<span class="tok fn">complete</span>(<span class="tok str">'   _'</span>);
+
+session.<span class="tok fn">newChat</span>(agent: <span class="tok str">'local-gguf'</span>);
+</code></pre>
+        </div>
+        <div class="editor-status">
+          <span class="editor-status-left">UTF-8 · LF · Dart</span>
+          <span class="editor-status-right">LSP ready &nbsp;<i class="status-dot"></i>&nbsp; git: main</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -50,6 +77,9 @@ description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: 
       <div class="feature"><p class="ic">TERMINAL</p><h3>Integrated terminal</h3><p>A full shell through your runtime &mdash; Termux on Android.</p></div>
       <div class="feature"><p class="ic">LSP · DAP</p><h3>LSP &amp; debugging</h3><p>Language intelligence and breakpoint debugging over the bridge.</p></div>
       <div class="feature"><p class="ic">GIT</p><h3>Git</h3><p>Clone, commit, push, pull, and review changes in a dedicated panel.</p></div>
+      <div class="feature"><p class="ic">AI CHAT</p><h3>AI chat agent</h3><p>Tool-calling assistant that reads, searches, and runs commands in your project.</p></div>
+      <div class="feature"><p class="ic">LOCAL AI</p><h3>Offline AI models</h3><p>Install GGUF models from Hugging Face and run them fully on-device.</p></div>
+      <div class="feature"><p class="ic">INLINE AI</p><h3>AI completions</h3><p>Fill-in-the-middle code completions through configurable providers.</p></div>
       <div class="feature"><p class="ic">EXTENSIONS</p><h3>Extension host</h3><p>A sidecar runtime for optional, VS Code-compatible extensions.</p></div>
       <div class="feature"><p class="ic">RUNTIME</p><h3>Local or remote</h3><p>Point the bridge at the phone, or a Linux/macOS host over the network.</p></div>
     </div>
@@ -93,7 +123,7 @@ description: "Darkian Studio is a real, mobile-first IDE for Android and Linux: 
   "alternateName": "DS",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Android, Linux",
-  "description": "Darkian Studio is a real, mobile-first IDE for Android and Linux with a code editor, integrated terminal, LSP, debugging, git, and an extension host, powered by a Termux or system runtime reached over a bridge.",
+  "description": "Darkian Studio is a real, mobile-first IDE for Android and Linux with a code editor, integrated terminal, LSP, debugging, git, an AI chat agent, and local offline AI models (GGUF), powered by a Termux or system runtime reached over a bridge.",
   "url": "{{ site.url }}/",
   "downloadUrl": "{{ site.releases_latest_url }}",
   "softwareVersion": "1.0.0-beta",
