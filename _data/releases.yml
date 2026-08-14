@@ -6,6 +6,62 @@
 #     --jq '.[] | {version: .tag_name, name: .name, date: (.published_at // ""), prerelease: .prerelease, url: .html_url, body: .body}'
 # then map the fields into the structure below. Seeded here from the public CHANGELOG.md.
 
+- version: "1.0.0-beta.5"
+  date: "2026-08-14"
+  prerelease: true
+  title: "On-device AI, GitHub cloud workspaces, and the agent chat rework"
+  url: "https://github.com/darkian-studio/app/releases"
+  sections:
+    - heading: Added
+      items:
+        - "Local on-device GGUF inference run entirely through dsterm — load models offline, no API key or network needed for inference."
+        - "A full on-device inference stack: protocol client, model resolution, fill-in-the-middle (FIM) with Rust-side template resolution, and tool calling for local GGUF models."
+        - "Priority scheduler for local models — per-model queues, concurrency, reference counting, sequence allocation."
+        - "Inference performance pass — KV cache reuse, warm-up, batching, streaming, memory live-wiring, and context reuse."
+        - "Local-on-device image/context retrieval pipeline (DSPack) with ranking, context injection, and budgeting."
+        - "GitHub cloud workspaces — sign in with GitHub OAuth, browse and clone repos, and work on remote files through a GitHub filesystem backend with local caching."
+        - "Git panel for remote workspaces via the GitHub Git Data API plus a minimal GitHub Actions integration with per-step job logs."
+        - "Remote-safe guards so local-only actions are disabled or clearly identified inside a remote workspace."
+        - "Agent chat rework — streaming messages, tool cards, agent state, syntax-highlighted diffs, and OpenCode-style markdown rendering."
+        - "Expanded AI tools: workspace search, grep, tree, stat, edit with fuzzy-replacer chain and diff output, web tools (search/fetch/extract), workspace.run, todowrite, askQuestion, and an agent.spawn sub-agent tool."
+        - "Token tracking with compaction/pruning, cache policy, and transport retry."
+        - "Full internationalization (i18n) infrastructure with 18 languages and a locale picker."
+        - "Model marketplace (Hugging Face): search, sort, pagination, README rendering, parameter counts, installed filter, and install/load/offload of GGUF models with real file sizes and a 30-minute download timeout."
+        - "Extension marketplace (OpenVSX): browse and open extension details; DSPacks coming-soon placeholder."
+        - "PostHog analytics with a safe enabled-guard for CI/test builds."
+        - "A remote feature flag (builtin_models_enabled) that can hide the built-in provider server-side without an app update."
+        - "In-page eruda developer-tools console toggle in the browser chrome."
+        - "Vector GitMark icon set across notes, menus, and the command palette; codicon icon set with tinted marks."
+        - "Branded intro animation on the welcome screen before first use."
+    - heading: Changed
+      items:
+        - "Chat syntax highlighting and user bubbles now inherit design tokens and the active editor theme instead of hardcoded colors."
+        - "Bottom sheets, dialogs, the command palette, file switcher, and model picker all share a single soft blurred, dimmed backdrop."
+        - "The built-in free provider is split out under its own 'Builtin' label; per-model system prompts and a positive-form system prompt with tiered tool retrieval for small models."
+        - "AI settings screen reworked; scrollable provider picker; inline model labeling; gated local inference."
+        - "Programming-related screens (DAP, host suite, tasks, problems, settings search, GitHub repos) migrated to the DS surface primitives and design tokens."
+        - "Darkian Dark is the default first-launch palette; Darkian Light was dropped."
+        - "Slash completions load a single bundled skills index instead of many fragile per-directory asset declarations."
+    - heading: Fixed
+      items:
+        - "Remote workspace search matches file names by substring instead of missing them."
+        - "Workspace.run returns the real exit code and stderr, applies timeouts, and wraps JSON output without a FormatException."
+        - "Tool outputs strip the JSON envelope so users see meaningful content instead of raw payloads."
+        - "Reasoning and tool-call rows stay structured per-turn instead of merging into one blob; copy button and ActionsGroup are per-turn."
+        - "Model README renders as markdown; real file sizes shown (HF tree endpoint has sizes); nested memory_estimate parsed correctly."
+        - "The webview backdrop sizing fixed (moved to didChangeDependencies) and the eruda floating button dropped in favor of the chrome toggle."
+        - "The built-in provider feature flag is fail-open when PostHog is unconfigured, so the provider never vanishes in dev/test."
+    - heading: Removed
+      items:
+        - "GitHub Copilot provider, device-code sign-in flow, and probe screens — removed; proved not worth the complexity for the API used."
+        - "The unused save button from the editor app-bar chrome (save remains available from the special-keys bar)."
+        - "Darkian Light theme."
+    - heading: Known limitations
+      items:
+        - "On-device model quality and speed depend on device hardware; very large GGUF models may not fit in memory on low-end devices."
+        - "GitHub cloud workspaces require an active network connection and GitHub OAuth; offline work is limited to the local-file cache."
+        - "GitHub Actions on remote workspaces covers core run/list/log flows; advanced workflows are not yet surfaced."
+
 - version: "1.0.0-beta.1"
   date: ""          # Unreleased at time of writing
   prerelease: true
