@@ -12,7 +12,7 @@ This tour assumes you've finished [install]({{ '/install/' | relative_url }}) an
 
 ## 1. Open a project
 
-DS works against a workspace root — a folder in your runtime. Open an existing folder in Termux (or your runtime host), or clone one with git first (see step 5). Once opened, the file tree, editor, and terminal all point at that same directory.
+DS works against a workspace root — a folder in your runtime. Open an existing folder in Termux (or your runtime host), or clone one with git first (see step 5). You can also skip the clone entirely and **[open a repository on GitHub]({{ '/docs/github/' | relative_url }})** — sign in, pick a branch, and work on it without downloading anything. Once a workspace is open, the file tree, editor, and terminal all point at that same directory.
 
 ## 2. Use the terminal
 
@@ -28,7 +28,7 @@ DS debugs through the Debug Adapter Protocol (DAP): it bridges to a debug adapte
 
 ## 5. Make your first git action
 
-DS provides git as a dedicated panel: clone, stage, commit, push, pull, stash, branch, resolve conflicts, and view blame — all operating against the runtime's git. Clone a repo to create a workspace, make a change, then stage and commit it.
+DS provides git as a dedicated panel: clone, stage, commit, push, pull, stash, branch, resolve conflicts, and view blame — all operating against the runtime's git. Clone a repo to create a workspace, make a change, then stage and commit it. Git also works in **[GitHub workspaces]({{ '/docs/github/' | relative_url }})**, where commits are written straight to the repository's branch.
 
 ## 6. Chat with the AI agent
 
@@ -37,6 +37,7 @@ Open the AI chat and ask the agent to work with your project — it can read and
 ## Where to go next
 
 - **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, local models, and inline completions.
+- **[GitHub workspaces]({{ '/docs/github/' | relative_url }})** — open and commit to a repository on GitHub without a local clone.
 - **[Architecture]({{ '/docs/architecture/' | relative_url }})** — why any machine with a terminal can act as DS's backend.
 - **[Troubleshooting]({{ '/docs/troubleshooting/' | relative_url }})** — if a step above didn't work.
 - **[FAQ]({{ '/faq/' | relative_url }})** — quick answers to common questions.

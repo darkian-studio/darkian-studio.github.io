@@ -75,7 +75,7 @@ Important nuance: **availability of an extension in Open VS X does not guarantee
 
 ### Project management
 
-Acode manages files and projects with an in-app file browser, FTP/SFTP, and GitHub sync. Darkian Studio includes workspace roots, trusted workspaces, tasks, and test runners (pytest, Flutter, Cargo collectors) as project-level structures.
+Acode manages files and projects with an in-app file browser, FTP/SFTP, and GitHub sync. Darkian Studio includes workspace roots, trusted workspaces, GitHub workspaces, tasks, and test runners (pytest, Flutter, Cargo collectors) as project-level structures.
 
 ## Feature comparison
 
@@ -99,7 +99,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | AI chat agent (tool calling) | ✅ | ❌ |
 | Offline local AI models (GGUF) | ✅ | ❌ |
 | AI inline completions | ✅ (FIM via providers) | ❌ |
-| SSH / remote file access | ✅ (SFTP/FTP/FTPS/WebDAV, dsterm) | ✅ (SSH, FTP/SFTP) |
+| SSH / remote file access | ✅ (SFTP/FTP/FTPS/WebDAV, dsterm, GitHub workspaces) | ✅ (SSH, FTP/SFTP) |
 | Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (community Plugin Store) |
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ❌ |
 | Test runner (pytest / Flutter / Cargo) | ✅ | ❌ |

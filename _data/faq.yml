@@ -62,6 +62,11 @@
     <p>Yes — DS's bridge can connect to a Linux or macOS host so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime.</p>
     <p>Windows-hosted remote runtimes are unsupported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes.</p>
 
+- q: Can I open a GitHub repository without cloning it?
+  answer: >
+    <p>Yes — DS has GitHub workspaces: sign in, pick a repository and branch, and edit, search, and commit straight against that branch through GitHub's APIs.</p>
+    <p>Nothing is downloaded to the device. The git panel and GitHub Actions work without a local clone; terminal, LSP, and debugging remain local-runtime features. See the <a href="/docs/github/">GitHub workspaces guide</a>.</p>
+
 - q: What can Darkian Studio do?
   answer: >
     <p>DS provides a code editor, integrated terminal, built-in LSP client, DAP debugging, git, an AI chat agent, offline local AI models, and an extension host — all against one runtime.</p>

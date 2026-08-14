@@ -18,7 +18,7 @@ description: "Darkian Studio vs Visual Studio Code: a mobile-first runtime-bridg
 | AI agent | Built-in chat agent + offline GGUF models | Copilot (built-in agent mode) |
 | Extension API | Partial `vscode` API surface (Open VS X) | Full `vscode` API (VS Code Marketplace) |
 | Debugging | DAP bridge to adapters in the runtime | DAP, first-class |
-| Remote development | `dsterm` to Linux/macOS; file remotes (SFTP/FTP/WebDAV) | First-class (Remote-SSH, Containers, WSL) |
+| Remote development | `dsterm` to Linux/macOS; file remotes (SFTP/FTP/WebDAV); GitHub workspaces | First-class (Remote-SSH, Containers, WSL) |
 | Runs on Android | ✅ | ❌ |
 | Price | Free during beta (GitHub Releases APK) | Free (open source, MIT) |
 
@@ -48,7 +48,7 @@ Git / LSP / debugger / extensions
 | Language intelligence | Built-in LSP client | Built-in LSP client against runtime or extension-host servers |
 | Debugger | DAP, first-class | DAP bridge to debug adapters in the runtime |
 | Extensions | VS Code Marketplace (first-party + community) | Open VS X marketplace (VS Code-compatible) + native plugins |
-| Remote development | First-class (Remote-SSH, Containers, WSL) | `dsterm` bridge to Linux/macOS hosts; SFTP/FTP/WebDAV file remotes |
+| Remote development | First-class (Remote-SSH, Containers, WSL) | `dsterm` bridge to Linux/macOS hosts; SFTP/FTP/WebDAV file remotes; GitHub workspaces |
 
 ## Architectural differences
 
@@ -77,7 +77,7 @@ Important nuance: **availability of an extension in Open VS X does not guarantee
 
 ### Remote runtimes
 
-VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux or macOS host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes.
+VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux or macOS host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes, and **GitHub workspaces** — sign in, pick a branch, and edit and commit straight against a GitHub repository without cloning it.
 
 ## Feature comparison
 
@@ -104,7 +104,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Git: conflict resolution UI | ✅ | ✅ (via extension) |
 | Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (VS Code Marketplace) |
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ✅ (full API) |
-| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes; Windows unsupported | ✅ first-class |
+| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes + GitHub workspaces; Windows unsupported | ✅ first-class |
 | Multi-root workspaces | ⚠️ single workspace root in beta | ✅ |
 | AI agent / assistant | ✅ built-in chat agent with tool calling (read/write files, search, run commands) | ✅ Copilot agent mode |
 | Offline local AI models | ✅ (GGUF, fully on-device via inference server) | ⚠️ via third-party extensions |

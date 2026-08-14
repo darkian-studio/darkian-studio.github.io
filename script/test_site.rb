@@ -42,6 +42,7 @@ PAGES = {
   "docs/getting-started/index.html"  => "Getting started",
   "docs/architecture/index.html"     => "Architecture",
   "docs/dsterm/index.html"           => "dsterm",
+  "docs/github/index.html"           => "GitHub workspaces",
   "docs/troubleshooting/index.html"  => "Troubleshooting",
   "docs/vs-vscode/index.html"        => "Comparison: VS Code",
   "docs/vs-acode/index.html"         => "Comparison: Acode",

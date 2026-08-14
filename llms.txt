@@ -17,6 +17,7 @@ Core facts (identical across the site): name "Darkian Studio" (DS); category dev
 - [Architecture]({{ site.url }}/docs/architecture/): One runtime, local or remote, serves editor, terminal, LSP, debugger, git, AI inference, and extensions over a bridge.
 - [AI features]({{ site.url }}/docs/ai/): The built-in chat agent with tool calling, offline GGUF models from Hugging Face, FIM inline completions, and MCP support.
 - [dsterm]({{ site.url }}/docs/dsterm/): The open-source Rust runtime bridge DS connects to — PTY, LSP/DAP/MCP/extension-host bridges, command execution; install, CLI, config, and API reference.
+- [GitHub workspaces]({{ site.url }}/docs/github/): Open a repository on GitHub without cloning it — sign in, pick a branch, and edit, search, and commit straight against it; git panel and GitHub Actions included.
 - [Troubleshooting]({{ site.url }}/docs/troubleshooting/): Diagnostics logs, crash reports, bug-report guidance, and known limitations.
 - [FAQ]({{ site.url }}/faq/): Direct answers to common questions about DS, including AI and offline models.
 

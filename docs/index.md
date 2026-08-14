@@ -17,6 +17,7 @@ Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, t
 
 - **[Architecture]({{ '/docs/architecture/' | relative_url }})** — how one runtime serves the editor, terminal, LSP, debugger, git, and extensions over a bridge.
 - **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, local GGUF models run fully offline, inline completions, and MCP.
+- **[GitHub workspaces]({{ '/docs/github/' | relative_url }})** — open a repository on GitHub without cloning it: sign in, pick a branch, and edit and commit straight against it.
 - **[dsterm]({{ '/docs/dsterm/' | relative_url }})** — the open-source Rust runtime bridge DS connects to: PTY, LSP/DAP/MCP/extension-host bridges, and command execution.
 
 ## Fix it

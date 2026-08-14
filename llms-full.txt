@@ -68,6 +68,7 @@ Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, t
 
 - **[Architecture]({{ '/docs/architecture/' | relative_url }})** — how one runtime serves the editor, terminal, LSP, debugger, git, and extensions over a bridge.
 - **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, local GGUF models run fully offline, inline completions, and MCP.
+- **[GitHub workspaces]({{ '/docs/github/' | relative_url }})** — open a repository on GitHub without cloning it: sign in, pick a branch, and edit and commit straight against it.
 - **[dsterm]({{ '/docs/dsterm/' | relative_url }})** — the open-source Rust runtime bridge DS connects to: PTY, LSP/DAP/MCP/extension-host bridges, and command execution.
 
 ## Fix it
@@ -144,7 +145,7 @@ This tour assumes you've finished [install]({{ '/install/' | relative_url }}) an
 
 ## 1. Open a project
 
-DS works against a workspace root — a folder in your runtime. Open an existing folder in Termux (or your runtime host), or clone one with git first (see step 5). Once opened, the file tree, editor, and terminal all point at that same directory.
+DS works against a workspace root — a folder in your runtime. Open an existing folder in Termux (or your runtime host), or clone one with git first (see step 5). You can also skip the clone entirely and **[open a repository on GitHub]({{ '/docs/github/' | relative_url }})** — sign in, pick a branch, and work on it without downloading anything. Once a workspace is open, the file tree, editor, and terminal all point at that same directory.
 
 ## 2. Use the terminal
 
@@ -160,7 +161,7 @@ DS debugs through the Debug Adapter Protocol (DAP): it bridges to a debug adapte
 
 ## 5. Make your first git action
 
-DS provides git as a dedicated panel: clone, stage, commit, push, pull, stash, branch, resolve conflicts, and view blame — all operating against the runtime's git. Clone a repo to create a workspace, make a change, then stage and commit it.
+DS provides git as a dedicated panel: clone, stage, commit, push, pull, stash, branch, resolve conflicts, and view blame — all operating against the runtime's git. Clone a repo to create a workspace, make a change, then stage and commit it. Git also works in **[GitHub workspaces]({{ '/docs/github/' | relative_url }})**, where commits are written straight to the repository's branch.
 
 ## 6. Chat with the AI agent
 
@@ -169,6 +170,7 @@ Open the AI chat and ask the agent to work with your project — it can read and
 ## Where to go next
 
 - **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, local models, and inline completions.
+- **[GitHub workspaces]({{ '/docs/github/' | relative_url }})** — open and commit to a repository on GitHub without a local clone.
 - **[Architecture]({{ '/docs/architecture/' | relative_url }})** — why any machine with a terminal can act as DS's backend.
 - **[Troubleshooting]({{ '/docs/troubleshooting/' | relative_url }})** — if a step above didn't work.
 - **[FAQ]({{ '/faq/' | relative_url }})** — quick answers to common questions.
@@ -267,6 +269,49 @@ DS is an MCP **client**: it can connect to MCP servers to give the AI agent addi
 - **[Getting started]({{ '/docs/getting-started/' | relative_url }})** — where AI fits in the first-run tour.
 - **[dsterm]({{ '/docs/dsterm/' | relative_url }})** — the runtime bridge that hosts the inference server.
 - **[FAQ]({{ '/faq/' | relative_url }})** — quick answers on AI, offline models, and providers.
+
+================================================================
+# GitHub workspaces
+================================================================
+
+A GitHub workspace lets you work with a repository on GitHub without copying it to your device. Files are not downloaded: DS talks to the repository's branch through GitHub's Contents and Git Data APIs, so you can browse, edit, search, run the git panel, and trigger GitHub Actions directly.
+
+## Open a repository
+
+1. On the **Welcome** screen, tap **GitHub**.
+2. Sign in with your GitHub account. DS uses a standard OAuth flow in your browser — the token is exchanged and stored on the device; it never ships in the app.
+3. Browse or search your repositories. Both **public and private** repos you have access to are listed.
+4. Pick a repository, then pick the branch you want to work on.
+
+The repository opens as a workspace. The file tree, editor, and git panel all point at that branch, and every file URI is stable — [switching branches](#git-panel) keeps the files you are viewing valid.
+
+## Edit and commit
+
+Edits are kept locally in the app and are only written to the remote branch when you **commit**. That means nothing on GitHub changes until you explicitly commit your work.
+
+- **File tree and search** — browse the whole repository, open files, edit, create, rename, and delete. Search and grep run against the workspace without a local clone.
+- **Commit** — the git panel computes your changes against the branch head, commits them through the Git Data API, and lands them directly on the branch. Because commits are written straight to GitHub, there is no separate push step.
+- **Pull the latest** — not available: branch contents are fetched when the workspace is opened. If the branch has moved since then, a commit is refused until you re-open the workspace to re-sync.
+
+## Git panel
+
+The git panel works against your GitHub workspace, with a few intentional differences from a local checkout:
+
+- Supporting the same actions as a local repo: view the change list and recent commits, stage changes, commit, switch branches, and discard per-file edits.
+- **Pull is never allowed**: there is nothing to merge locally — your edits already live on the remote branch, so pulling would discard them. Re-open the workspace to see the latest instead.
+- **Stash, remotes, and conflict-resolution UI are not available** in a GitHub workspace — the panel simply doesn't offer them.
+- Switching branches is all-or-nothing: commit or discard your pending changes first, then switch. 
+- If the remote branch has moved since the workspace was opened, your commit is refused — re-open the workspace to sync, then commit again.
+
+## GitHub Actions
+
+A small Actions panel sits behind the git panel: list the repository's workflows, see recent runs, trigger a manual `workflow_dispatch` run on the current branch, open a workflow file from its path, and drill into a run's jobs and logs with one-tap copy.
+
+## Notes
+
+- **Nothing is cloned or stored locally.** Editor features that depend on a local file — the runtime terminal, LSP-based language intelligence (completion, hover, diagnostics), and the debugger — operate against your runtime's filesystem, so they don't see a GitHub workspace. If you need those, clone the repository with git in the terminal and open the folder instead.
+- The workspace reflects the branch you opened. To follow someone else's changes, re-open the workspace.
+- Your files, edits, searches, git actions, and Actions runs all go through your signed-in GitHub account, so the same trust rules as the terminal apply — and your token stays on the device.
 
 ================================================================
 # dsterm
@@ -510,7 +555,7 @@ Frequently asked questions
 | AI agent | Built-in chat agent + offline GGUF models | Copilot (built-in agent mode) |
 | Extension API | Partial `vscode` API surface (Open VS X) | Full `vscode` API (VS Code Marketplace) |
 | Debugging | DAP bridge to adapters in the runtime | DAP, first-class |
-| Remote development | `dsterm` to Linux/macOS; file remotes (SFTP/FTP/WebDAV) | First-class (Remote-SSH, Containers, WSL) |
+| Remote development | `dsterm` to Linux/macOS; file remotes (SFTP/FTP/WebDAV); GitHub workspaces | First-class (Remote-SSH, Containers, WSL) |
 | Runs on Android | ✅ | ❌ |
 | Price | Free during beta (GitHub Releases APK) | Free (open source, MIT) |
 
@@ -540,7 +585,7 @@ Git / LSP / debugger / extensions
 | Language intelligence | Built-in LSP client | Built-in LSP client against runtime or extension-host servers |
 | Debugger | DAP, first-class | DAP bridge to debug adapters in the runtime |
 | Extensions | VS Code Marketplace (first-party + community) | Open VS X marketplace (VS Code-compatible) + native plugins |
-| Remote development | First-class (Remote-SSH, Containers, WSL) | `dsterm` bridge to Linux/macOS hosts; SFTP/FTP/WebDAV file remotes |
+| Remote development | First-class (Remote-SSH, Containers, WSL) | `dsterm` bridge to Linux/macOS hosts; SFTP/FTP/WebDAV file remotes; GitHub workspaces |
 
 ## Architectural differences
 
@@ -569,7 +614,7 @@ Important nuance: **availability of an extension in Open VS X does not guarantee
 
 ### Remote runtimes
 
-VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux or macOS host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes.
+VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux or macOS host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes, and **GitHub workspaces** — sign in, pick a branch, and edit and commit straight against a GitHub repository without cloning it.
 
 ## Feature comparison
 
@@ -596,7 +641,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Git: conflict resolution UI | ✅ | ✅ (via extension) |
 | Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (VS Code Marketplace) |
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ✅ (full API) |
-| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes; Windows unsupported | ✅ first-class |
+| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes + GitHub workspaces; Windows unsupported | ✅ first-class |
 | Multi-root workspaces | ⚠️ single workspace root in beta | ✅ |
 | AI agent / assistant | ✅ built-in chat agent with tool calling (read/write files, search, run commands) | ✅ Copilot agent mode |
 | Offline local AI models | ✅ (GGUF, fully on-device via inference server) | ⚠️ via third-party extensions |
@@ -697,7 +742,7 @@ Important nuance: **availability of an extension in Open VS X does not guarantee
 
 ### Project management
 
-Acode manages files and projects with an in-app file browser, FTP/SFTP, and GitHub sync. Darkian Studio includes workspace roots, trusted workspaces, tasks, and test runners (pytest, Flutter, Cargo collectors) as project-level structures.
+Acode manages files and projects with an in-app file browser, FTP/SFTP, and GitHub sync. Darkian Studio includes workspace roots, trusted workspaces, GitHub workspaces, tasks, and test runners (pytest, Flutter, Cargo collectors) as project-level structures.
 
 ## Feature comparison
 
@@ -721,7 +766,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | AI chat agent (tool calling) | ✅ | ❌ |
 | Offline local AI models (GGUF) | ✅ | ❌ |
 | AI inline completions | ✅ (FIM via providers) | ❌ |
-| SSH / remote file access | ✅ (SFTP/FTP/FTPS/WebDAV, dsterm) | ✅ (SSH, FTP/SFTP) |
+| SSH / remote file access | ✅ (SFTP/FTP/FTPS/WebDAV, dsterm, GitHub workspaces) | ✅ (SSH, FTP/SFTP) |
 | Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (community Plugin Store) |
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ❌ |
 | Test runner (pytest / Flutter / Cargo) | ✅ | ❌ |
