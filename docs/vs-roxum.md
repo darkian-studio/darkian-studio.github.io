@@ -6,7 +6,7 @@ lede: Roxum is an Android IDE with a native Rust editor and on-device AI; Darkia
 description: "Darkian Studio vs Roxum: a native-Rust-editor Android IDE with on-device AI versus a bridge-runtime Android IDE with DAP debugging, Open VS X extensions, and GitHub workspaces. Architecture and a feature-by-feature table."
 ---
 
-> Versions compared: Darkian Studio 1.0.0-beta (first public beta, August 2026) and Roxum 2.4.0 (latest Play Store release, July 2026). DS capabilities were verified against its runtime (`dsterm`) and the DS source; Roxum capabilities were verified against the Roxum source (`heckmon/roxum-ide`, v2.4.0). Input-latency and scrolling comparisons are real-device measurements, not benchmarks.
+> Versions compared: Darkian Studio 1.0.0-beta (first public beta, August 2026) and Roxum 2.4.0 (latest Play Store release, July 2026). DS capabilities were verified against its runtime (`dsterm`) and the DS source; Roxum capabilities were verified against the Roxum source (`heckmon/roxum-ide`, v2.4.0). Input-latency and scrolling observations come from hands-on testing on a real device, not from benchmarks.
 
 ## At a glance
 
@@ -24,6 +24,8 @@ description: "Darkian Studio vs Roxum: a native-Rust-editor Android IDE with on-
 ## Executive summary
 
 Roxum is a free, MIT-licensed, mobile-first code editor and mini-IDE for Android, built on Flutter, powered by a native Rust editor engine from the `code_forge` package. It focuses on editing with broad language support, a built-in terminal, Git/GitHub tooling, on-device and cloud AI, and a huge theme library. Darkian Studio is a mobile-first development environment for Android whose editor, terminal, language intelligence, debugger, Git, and extensions all operate against one shared runtime reached through `dsterm`, a Rust server that multiplexes PTY, LSP, DAP, an extension host, and command execution over a single connection. The two tools target the same stage — coding on a phone — but diverge sharply in architecture and depth: Roxum ships a genuinely native editor with strong built-in language/terminal/AI support, while DS routes every core function through one runtime abstraction and, in doing so, gains capabilities Roxum does not have — structured DAP debugging, VS Code-compatible extensions, and clone-less GitHub workspaces.
+
+One asymmetry is worth stating plainly: DS is the younger project. It is a 1.0.0-beta distributed through GitHub Releases rather than the Play Store, so there is no store-driven auto-update channel or Play-install base yet, and its extension/theme ecosystem and community are smaller than Roxum's. The comparisons below are between the current builds — DS 1.0.0-beta and Roxum 2.4.0 — and neither product is finished.
 
 ## How each tool works
 
@@ -53,13 +55,7 @@ Terminal / LSP / run   (DS also routes debugger, extensions, and AI here)
 
 Roxum's editor is native: the `code_forge` package embeds a Rust editing engine (rope / sum-tree data structures, similar to Zed) initialized at startup via `RustLib.init()`, rendered as a real Flutter widget, with syntax highlighting from `re_highlight`. There is no web view doing the editing. Darkian Studio's editor is a CodeMirror 6 bundle (`@codemirror/*` + Lezer grammars) loaded as a Flutter asset into an in-app web view, with Dart orchestrating the bridge — it maps 100+ languages, drives find/replace, folding, diagnostics, and the breakpoint gutter by calling into JavaScript, and receives editor events back over a `JavascriptChannel`.
 
-On paper, the Rust editor sounds strictly better; in practice on Android the opposite holds. `code_forge` is reached over the `flutter_rust_bridge` FFI, and every edit operation serializes across that boundary. Real-device measurements bear this out:
-
-| Interaction | DS (web editor) | Roxum (native Rust editor) |
-|---|---|---|
-| First keystroke latency | ~0.5 s | ~3 s |
-| Subsequent keystroke latency | ~0.5 s, consistent | ~1.2 s |
-| Scrolling | Smooth (only syntax highlighting lags on very fast scroll) | Inconsistent — scroll sticks and jams mid-list |
+On paper, the Rust editor sounds strictly better; in practice on Android the opposite holds. `code_forge` is reached over the `flutter_rust_bridge` FFI, and every edit operation serializes across that boundary. In hands-on testing, DS's web-view editor responded to keystrokes and scrolled smoothly regardless of file size. Roxum's native editor showed a multi-second delay before the first keystroke registered and stayed noticeably slower on subsequent input — likely the Flutter↔Rust FFI boundary in `code_forge`, since every edit operation serializes across it.
 
 So the Flutter↔Rust bridge in Roxum adds latency instead of removing it, and the web-view editor in DS is the one that responds and scrolls smoothly in daily use. "Native Rust" is an implementation detail, not a performance win — what matters is where the per-keystroke and per-frame work actually happens.
 
@@ -73,21 +69,21 @@ Roxum has no single runtime server. Its terminal runs a bundled shell (`libbash.
 
 The two differ substantially on how you reach a real machine. Roxum connects to Termux over SSH: the Termux "connection" is stored as an SSH key, and opening a Termux session starts an SSH `shell()` through `dartssh2`, as do sessions to any saved SSH server. Remote work is a remote terminal and nothing more — there is no SFTP file browser, no remote LSP, and no port forwarding.
 
-There is a deeper catch in the remote/Termux terminal itself: **special keys silently do nothing.** The on-screen keyboard menu's arrow keys, ESC, HOME, and END all write through `sendToPty`, which writes to the local PTY object — but a Termux/SSH session has no local PTY (`runtime.sshSession` is set instead, `lib/terminal/terminal.dart:511-559`), so those sequences are dropped. The CTRL/ALT/SHIFT toggles are gated on the same local PTY and early-return without it (`terminal.dart:938`). So over a Termux or SSH connection you can see the shell and run commands, but Ctrl-C, arrow history navigation, Alt combos, and the clipboard keys are dead keys — the session is a view-and-type shell.
+There is a deeper catch in the remote/Termux terminal itself: as of Roxum 2.4.0 (July 2026), the on-screen keyboard menu's arrow keys, ESC, HOME, and END all write through `sendToPty`, which targets a local PTY that a Termux/SSH session does not have, so those sequences are dropped, and the CTRL/ALT/SHIFT toggles early-return under the same condition.[^1] So over a Termux or SSH connection you can see the shell and run commands, but Ctrl-C, arrow history navigation, Alt combos, and the clipboard keys are dead keys; the session supports viewing and typing but not key-driven navigation.
 
 DS reaches Termux as the local runtime over a local `dsterm` endpoint (the open-source `dsterm` server, available at `~/dsterm`), and to Linux/macOS hosts it connects `dsterm` directly or uses file-level remote backends (SFTP/FTP/FTPS/WebDAV) and GitHub workspaces. In DS the editor, terminal, language servers, debugger, and extensions can all run against a remote runtime, not just a remote shell. Because DS's own platform view feeds key events through a real input router (`DsTerminalInputRouter.kt`, unit-tested at `DsTerminalInputRouterTest.kt`), Ctrl-letter → control characters, arrow/Home/End/PageUp/PageDown CSI sequences, Alt-ESC prefixes, and chorded keybindings all work the same in every session — local or over `dsterm` — not just a cosmetic shell.
 
-### Project storage: a sandbox you can't escape without git
+### Project storage: copied, not opened in place
 
-Roxum keeps its projects on the phone in its own app-scoped storage — `/storage/emulated/0/Android/media/com.roxum/Projects` and `/storage/emulated/0/Android/media/com.roxum/Files` (`lib/utils/constants.dart:7,9`). When you import a folder, Roxum **copies** it into that private tree (`lib/utils/functions.dart:77-93`); it does not open it in place. The consequence is practical: unless the project is a Git repository you push somewhere, your work is sitting in a sandboxed partition with no obvious way out. There is no export-back-to-source gesture, no remote file sync, and no clone-less workflow — so a non-git project is effectively trapped in that filesystem: you can regenerate it only by hand-copying from Android's media directory, and uninstalling the app can orphan it.
+Roxum keeps its projects on the phone in its own app-scoped storage — `/storage/emulated/0/Android/media/com.roxum/Projects` and `/storage/emulated/0/Android/media/com.roxum/Files` (`lib/utils/constants.dart:7,9`). When you import a folder, Roxum **copies** it into that private tree (`lib/utils/functions.dart:77-93`); it does not open it in place. The consequence is practical: unless the project is a Git repository you push somewhere, your work sits in Roxum's app-scoped storage with no built-in export path. There is no export-back-to-source gesture, no remote file sync, and no clone-less workflow — you can regenerate it only by hand-copying from Android's media directory, and uninstalling the app can orphan it.
 
 DS, in contrast, edits against a real workspace you point it at — the Termux home or a `dsterm` host's filesystem — and its Git/GitHub integration is designed around the project being a genuine repository you can push from, plus clone-less GitHub workspaces and SFTP/FTP/WebDAV file remotes that move it off-device without copying.
 
-### Debugging: the decisive gap
+### Debugging
 
 Roxum ships no structured debugger. There is no Debug Adapter Protocol support anywhere in the source — no breakpoints, variables, watches, or call stack. Its "diag" view is an LSP diagnostics/problems panel, and process "running" just launches a program through a selected runtime.
 
-Darkian Studio debugs through the Debug Adapter Protocol: `dsterm` proxies any DAP adapter over WebSocket, and DS renders breakpoints, variable inspection, watch expressions, the call stack, and a debug console — so it can debug any language that ships a standard DAP adapter. For a mobile IDE, this is the single largest capability Roxum lacks.
+Darkian Studio debugs through the Debug Adapter Protocol: `dsterm` proxies any DAP adapter over WebSocket, and DS renders breakpoints, variable inspection, watch expressions, the call stack, and a debug console — so it can debug any language that ships a standard DAP adapter. This is a capability Roxum does not offer.
 
 ### Extensions and compatibility
 
@@ -111,10 +107,10 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Minimap | ⚠️ not in current beta | ⚠️ not in current release |
 | Diff editor / pending-edit preview | ✅ | ✅ (pending-edit decorations) |
 | Integrated terminal | ✅ (dsterm-backed) | ✅ (native PTY, bundled shell) |
-| Terminal special keys (Ctrl / Alt / arrows) | ✅ in every session (input router, unit-tested) | ⚠️ local session only — blackhole over SSH/Termux |
+| Terminal special keys (Ctrl / Alt / arrows) | ✅ in every session (input router, unit-tested) | ⚠️ local session only — non-functional over SSH/Termux |
 | SSH / remote terminal | ⚠️ remote file backends + dsterm hosts; no bare SSH terminal | ✅ SSH terminal (password / key) |
 | Remote file editing (SFTP/FTP/WebDAV) | ✅ | ❌ |
-| Projects live in the app's own sandbox (imported/copied) | ❌ edits the real workspace you point at | ⚠️ app-scoped media dir; non-git projects trapped |
+| Projects copied into app-managed storage on import | ❌ edits the real workspace you point at | ⚠️ app-scoped media dir; manual copy to export |
 | Export / off-device recovery without git | ✅ (remotes, GitHub workspaces) | ❌ hand-copy from app media dir only |
 | Built-in LSP client | ✅ | ✅ (in the editor engine) |
 | LSP: completion / hover / signature help | ✅ | ✅ |
@@ -123,7 +119,6 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | LSP: diagnostics / problems panel | ✅ | ✅ |
 | Semantic tokens / inlay hints | ✅ | ⚠️ partial |
 | Debugging (DAP: breakpoints, variables, watch, stack) | ✅ | ❌ |
-| Interactive JS console | ❌ | ❌ |
 | Git: clone / commit / push / pull / stash / branch | ✅ | ✅ |
 | Git: conflict resolution UI | ✅ | ⚠️ basic |
 | Git: blame | ✅ | ⚠️ via tooling |
@@ -142,7 +137,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Tasks / build automation | ✅ | ❌ |
 | Trusted workspace gating | ✅ | ❌ |
 | Runs on Android | ✅ | ✅ |
-| Responsive typing / scrolling (tested on device) | ✅ smooth | ❌ FFI-bound: slow keystrokes, sticky scroll |
+| Responsive typing / scrolling (tested on device) | ✅ smooth | ❌ slow keystrokes, sticky scroll |
 | Automated tests in the codebase | ✅ (large suite, unit tests pass) | ❌ (none) |
 | Distribution | GitHub Releases APK (beta) | Play Store, GitHub (MIT) |
 | License | Proprietary (free beta) | MIT |
@@ -161,8 +156,10 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 - You need structured debugging — breakpoints, variable inspection, watch expressions, and a call stack — through a debug-adapter bridge to a real runtime.
 - You want to install VS Code-compatible extensions from Open VS X, understanding the extension API is a partial surface.
 - You want the terminal, language servers, debugger, and extensions to run in the same runtime and share one `PATH`, filesystem, and set of SDKs.
-- You want your projects to live in a filesystem you own and can leave — a real workspace, not a sandboxed copy you can only exit through git.
+- You want your projects to live in a filesystem you own and can leave — a real workspace, not a copy held in app-managed storage.
 - You want clone-less GitHub workspaces, Git conflict-resolution UI, tasks, and built-in test runners in the workflow.
 - You want a codebase that ships with an extensive automated test suite rather than an untested binary.
 
 Ready to try it? **[Install Darkian Studio]({{ '/install/' | relative_url }})** or read the **[architecture overview]({{ '/docs/architecture/' | relative_url }})**.
+
+[^1]: In the Roxum source, a Termux/SSH session sets `runtime.sshSession` rather than a local PTY; `sendToPty` writes to the local PTY object so those sequences are dropped (`lib/terminal/terminal.dart:511-559`), and the CTRL/ALT/SHIFT toggles are gated on the same local PTY and early-return without it (`lib/terminal/terminal.dart:938`).
