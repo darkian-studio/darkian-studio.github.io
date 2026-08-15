@@ -79,6 +79,7 @@ Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, t
 
 - **[DS vs VS Code]({{ '/docs/vs-vscode/' | relative_url }})** — mobile-first runtime bridge versus a desktop-first editor with the full `vscode` API.
 - **[DS vs Acode]({{ '/docs/vs-acode/' | relative_url }})** — one shared runtime for everything versus a mobile editor with a focused PTY/LSP backend.
+- **[DS vs Roxum]({{ '/docs/vs-roxum/' | relative_url }})** — a bridge-runtime IDE with DAP debugging and Open VS X extensions versus a native-Rust-editor Android IDE with on-device AI.
 
 ## Also useful
 
@@ -127,7 +128,7 @@ Install Darkian Studio
  The setup script is runtime aware : it uses the correct commands for Termux, Linux (apt/pacman/dnf), and macOS (Homebrew), skips already-installed components, and verifies the result before exiting. 
 
  If Verify setup fails 
- If the runtime doesn't come up or verification fails, head to Troubleshooting for diagnostics steps and known limitations. Note that connecting a DS workspace to a Windows-hosted runtime is not supported in this beta — use Termux or a Linux/macOS host. 
+ If the runtime doesn't come up or verification fails, head to Troubleshooting for diagnostics steps and known limitations. Remote runtimes over `dsterm` work on Linux, macOS, and Windows; Windows terminal rendering is not yet fully verified — Termux and Linux/macOS hosts remain the primary tested path. 
 
  Next steps 
 
@@ -207,13 +208,13 @@ The terminal, language servers, debugger, AI inference, extension host, and comm
 
 ## Local or remote
 
-On Android, DS drives a Termux runtime on the device. On Linux and macOS, it can use a system runtime or connect to a remote host, so the editor, terminal, language servers, debugger, AI, and extensions all run against that runtime. Connecting to a **Windows-hosted** runtime is not supported in this beta — use Termux or a Linux/macOS host.
+On Android, DS drives a Termux runtime on the device. On Linux, macOS, or Windows, it can use a system runtime or connect to a remote host, so the editor, terminal, language servers, debugger, AI, and extensions all run against that runtime. Windows hosts work for file operations and editing; terminal rendering there is not yet fully verified — Termux and Linux/macOS hosts remain the primary tested path.
 
 ## Learn more
 
 - **[Getting started]({{ '/docs/getting-started/' | relative_url }})** — put the model into practice.
 - **[AI features]({{ '/docs/ai/' | relative_url }})** — the chat agent, offline local models, and completions.
-- **[DS vs VS Code]({{ '/docs/vs-vscode/' | relative_url }})** and **[DS vs Acode]({{ '/docs/vs-acode/' | relative_url }})** — how this architecture differs from other tools.
+- **[DS vs VS Code]({{ '/docs/vs-vscode/' | relative_url }})** and **[DS vs Acode]({{ '/docs/vs-acode/' | relative_url }})** and **[DS vs Roxum]({{ '/docs/vs-roxum/' | relative_url }})** — how this architecture differs from other tools.
 
 ================================================================
 # AI features
@@ -370,7 +371,7 @@ When no prebuilt binary matches your platform, the installers fall back to build
 </div>
 
 <div class="callout warn">
-  <p><strong>Note on remote runtimes.</strong> <code>dsterm</code> itself ships a Windows binary, but connecting a <em>Darkian Studio workspace</em> to a Windows-hosted <code>dsterm</code> endpoint is not supported in this beta. Use Termux or a Linux/macOS host for remote runtimes.</p>
+  <p><strong>Note on remote runtimes.</strong> <code>dsterm</code> ships Windows binaries, and a Darkian Studio workspace can connect to a Windows-hosted <code>dsterm</code> endpoint for file operations and editing; terminal rendering there is not yet fully verified. Termux and Linux/macOS hosts remain the primary tested path.</p>
 </div>
 
 ## Update
@@ -514,7 +515,7 @@ Requesting something instead? Use the **[Feature request template]({{ site.featu
 
 These are the known limitations of the first public beta, kept in sync with the project README:
 
-- **`dsterm` remote on Windows fails.** Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta; use Termux or a Linux/macOS host for remote runtimes.
+- **`dsterm` remote on Windows renders no terminal.** Connecting a DS workspace to a Windows-hosted `dsterm` endpoint works for file operations and editing, but terminal rendering there is not yet fully verified; use Termux or a Linux/macOS host for a complete remote runtime.
 - The setup script provisions the runtime on the **device/local host** only.
 - Extension host features are opt-in and may be limited on low-end devices.
 - Beta tags may ship with breaking changes between releases.
@@ -614,7 +615,7 @@ Important nuance: **availability of an extension in Open VS X does not guarantee
 
 ### Remote runtimes
 
-VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux or macOS host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes, and **GitHub workspaces** — sign in, pick a branch, and edit and commit straight against a GitHub repository without cloning it.
+VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux, macOS, or Windows host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Windows hosts work for file operations and editing, though terminal rendering there is not yet verified. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes, and **GitHub workspaces** — sign in, pick a branch, and edit and commit straight against a GitHub repository without cloning it.
 
 ## Feature comparison
 
@@ -626,7 +627,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Syntax highlighting (many languages) | ✅ | ✅ |
 | Command palette | ✅ | ✅ |
 | Find / replace in editor | ✅ | ✅ |
-| Minimap | ✅ | ✅ |
+| Minimap | ⚠️ removed in current beta (was tried, dropped) | ✅ |
 | Diff editor | ✅ | ✅ |
 | Git blame in editor | ✅ | ✅ (via extension) |
 | Integrated terminal | ✅ (dsterm-backed) | ✅ (native PTY) |
@@ -641,7 +642,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Git: conflict resolution UI | ✅ | ✅ (via extension) |
 | Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (VS Code Marketplace) |
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ✅ (full API) |
-| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes + GitHub workspaces; Windows unsupported | ✅ first-class |
+| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS/Windows hosts) + file remotes + GitHub workspaces | ✅ first-class |
 | Multi-root workspaces | ⚠️ single workspace root in beta | ✅ |
 | AI agent / assistant | ✅ built-in chat agent with tool calling (read/write files, search, run commands) | ✅ Copilot agent mode |
 | Offline local AI models | ✅ (GGUF, fully on-device via inference server) | ⚠️ via third-party extensions |
@@ -754,7 +755,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Syntax highlighting (many languages) | ✅ | ✅ |
 | Command palette | ✅ | ✅ |
 | Find / replace (including all files) | ✅ | ✅ (all-files search is beta) |
-| Minimap | ✅ | ❌ |
+| Minimap | ⚠️ removed in current beta (was tried, dropped) | ❌ |
 | Integrated terminal | ✅ (dsterm-backed) | ✅ (axs PTY, Alpine proot, no root) |
 | Built-in LSP client | ✅ | ⚠️ installed as plugins |
 | Debugging (DAP: breakpoints, variables, watch, stack) | ✅ | ⚠️ JS console only |

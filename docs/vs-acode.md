@@ -87,7 +87,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Syntax highlighting (many languages) | ✅ | ✅ |
 | Command palette | ✅ | ✅ |
 | Find / replace (including all files) | ✅ | ✅ (all-files search is beta) |
-| Minimap | ✅ | ❌ |
+| Minimap | ⚠️ removed in current beta (was tried, dropped) | ❌ |
 | Integrated terminal | ✅ (dsterm-backed) | ✅ (axs PTY, Alpine proot, no root) |
 | Built-in LSP client | ✅ | ⚠️ installed as plugins |
 | Debugging (DAP: breakpoints, variables, watch, stack) | ✅ | ⚠️ JS console only |

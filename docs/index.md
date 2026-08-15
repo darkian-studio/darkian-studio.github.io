@@ -2,8 +2,8 @@
 layout: doc
 permalink: /docs/
 title: Documentation
-lede: The Darkian Studio docs cover installing, using, and troubleshooting DS, plus how its runtime bridge works and how it compares to VS Code and Acode.
-description: "Darkian Studio documentation: getting started, architecture, troubleshooting, and comparisons with VS Code and Acode."
+lede: The Darkian Studio docs cover installing, using, and troubleshooting DS, plus how its runtime bridge works and how it compares to VS Code, Acode, and Roxum.
+description: "Darkian Studio documentation: getting started, architecture, troubleshooting, and comparisons with VS Code, Acode, and Roxum."
 ---
 
 Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, terminal, LSP, debugging, git, AI chat, and local offline AI models all run against one runtime reached over a bridge. Start with install, then take the getting-started tour.
@@ -28,6 +28,7 @@ Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. Editor, t
 
 - **[DS vs VS Code]({{ '/docs/vs-vscode/' | relative_url }})** — mobile-first runtime bridge versus a desktop-first editor with the full `vscode` API.
 - **[DS vs Acode]({{ '/docs/vs-acode/' | relative_url }})** — one shared runtime for everything versus a mobile editor with a focused PTY/LSP backend.
+- **[DS vs Roxum]({{ '/docs/vs-roxum/' | relative_url }})** — a bridge-runtime IDE with DAP/debugging and Open VS X extensions versus a native-Rust-editor Android IDE with on-device AI.
 
 ## Also useful
 

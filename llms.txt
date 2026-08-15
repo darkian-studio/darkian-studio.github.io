@@ -7,7 +7,7 @@ sitemap: false
 
 > Darkian Studio (DS) is a real, mobile-first IDE for Android and Linux. It brings a code editor, integrated terminal, LSP, debugging, git, an AI chat agent, local offline AI models (GGUF), and an extension host into one app, powered by a Termux or system runtime reached over a bridge. It is free during its first public beta and distributed as an Android APK via GitHub Releases (no Play Store).
 
-Core facts (identical across the site): name "Darkian Studio" (DS); category developer IDE; platforms Android and Linux; price free (beta); distribution GitHub Releases APK only. Built-in AI chat agent with tool calling, FIM inline completions, and offline GGUF models installed from the Hugging Face marketplace. Connecting to a Windows-hosted remote runtime is unsupported in this beta.
+Core facts (identical across the site): name "Darkian Studio" (DS); category developer IDE; platforms Android and Linux; price free (beta); distribution GitHub Releases APK only. Built-in AI chat agent with tool calling, FIM inline completions, and offline GGUF models installed from the Hugging Face marketplace. Remote runtimes over `dsterm` work on Linux, macOS, and Windows (Windows terminal rendering not yet fully verified).
 
 ## Docs
 
@@ -25,6 +25,7 @@ Core facts (identical across the site): name "Darkian Studio" (DS); category dev
 
 - [DS vs VS Code]({{ site.url }}/docs/vs-vscode/): Mobile-first runtime bridge versus a desktop-first editor with the full vscode API.
 - [DS vs Acode]({{ site.url }}/docs/vs-acode/): One shared runtime for everything versus a mobile editor with a focused PTY/LSP backend.
+- [DS vs Roxum]({{ site.url }}/docs/vs-roxum/): A bridge-runtime IDE with DAP debugging and Open VS X extensions versus a native-Rust-editor Android IDE with on-device AI.
 
 ## Optional
 

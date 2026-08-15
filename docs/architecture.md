@@ -34,7 +34,7 @@ The terminal, language servers, debugger, AI inference, extension host, and comm
 
 ## Local or remote
 
-On Android, DS drives a Termux runtime on the device. On Linux and macOS, it can use a system runtime or connect to a remote host, so the editor, terminal, language servers, debugger, AI, and extensions all run against that runtime. Connecting to a **Windows-hosted** runtime is not supported in this beta — use Termux or a Linux/macOS host.
+On Android, DS drives a Termux runtime on the device. On Linux, macOS, or Windows, it can use a system runtime or connect to a remote host, so the editor, terminal, language servers, debugger, AI, and extensions all run against that runtime. Windows hosts work for file operations and editing; terminal rendering there is not yet fully verified — Termux and Linux/macOS hosts remain the primary tested path.
 
 ## Learn more
 

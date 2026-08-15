@@ -59,7 +59,7 @@ When no prebuilt binary matches your platform, the installers fall back to build
 </div>
 
 <div class="callout warn">
-  <p><strong>Note on remote runtimes.</strong> <code>dsterm</code> itself ships a Windows binary, but connecting a <em>Darkian Studio workspace</em> to a Windows-hosted <code>dsterm</code> endpoint is not supported in this beta. Use Termux or a Linux/macOS host for remote runtimes.</p>
+  <p><strong>Note on remote runtimes.</strong> <code>dsterm</code> ships Windows binaries, and a Darkian Studio workspace can connect to a Windows-hosted <code>dsterm</code> endpoint for file operations and editing; terminal rendering there is not yet fully verified. Termux and Linux/macOS hosts remain the primary tested path.</p>
 </div>
 
 ## Update

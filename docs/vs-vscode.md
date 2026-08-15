@@ -77,7 +77,7 @@ Important nuance: **availability of an extension in Open VS X does not guarantee
 
 ### Remote runtimes
 
-VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux or macOS host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes, and **GitHub workspaces** — sign in, pick a branch, and edit and commit straight against a GitHub repository without cloning it.
+VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux, macOS, or Windows host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Windows hosts work for file operations and editing, though terminal rendering there is not yet verified. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes, and **GitHub workspaces** — sign in, pick a branch, and edit and commit straight against a GitHub repository without cloning it.
 
 ## Feature comparison
 
@@ -89,7 +89,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Syntax highlighting (many languages) | ✅ | ✅ |
 | Command palette | ✅ | ✅ |
 | Find / replace in editor | ✅ | ✅ |
-| Minimap | ✅ | ✅ |
+| Minimap | ⚠️ not in current beta | ✅ |
 | Diff editor | ✅ | ✅ |
 | Git blame in editor | ✅ | ✅ (via extension) |
 | Integrated terminal | ✅ (dsterm-backed) | ✅ (native PTY) |
@@ -104,7 +104,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Git: conflict resolution UI | ✅ | ✅ (via extension) |
 | Extension marketplace (browse/install) | ✅ (Open VS X) | ✅ (VS Code Marketplace) |
 | VS Code-compatible extensions | ⚠️ partial `vscode` API surface | ✅ (full API) |
-| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS) + file remotes + GitHub workspaces; Windows unsupported | ✅ first-class |
+| Remote development (SSH / Containers / WSL) | ⚠️ dsterm (Linux/macOS/Windows hosts) + file remotes + GitHub workspaces | ✅ first-class |
 | Multi-root workspaces | ⚠️ single workspace root in beta | ✅ |
 | AI agent / assistant | ✅ built-in chat agent with tool calling (read/write files, search, run commands) | ✅ Copilot agent mode |
 | Offline local AI models | ✅ (GGUF, fully on-device via inference server) | ⚠️ via third-party extensions |

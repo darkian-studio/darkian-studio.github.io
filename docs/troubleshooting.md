@@ -33,7 +33,7 @@ Requesting something instead? Use the **[Feature request template]({{ site.featu
 
 These are the known limitations of the first public beta, kept in sync with the project README:
 
-- **`dsterm` remote on Windows fails.** Connecting a DS workspace to a Windows-hosted `dsterm` endpoint is not supported in this beta; use Termux or a Linux/macOS host for remote runtimes.
+- **`dsterm` remote on Windows renders no terminal.** Connecting a DS workspace to a Windows-hosted `dsterm` endpoint works for file operations and editing, but terminal rendering there is not yet fully verified; use Termux or a Linux/macOS host for a complete remote runtime.
 - The setup script provisions the runtime on the **device/local host** only.
 - Extension host features are opt-in and may be limited on low-end devices.
 - Beta tags may ship with breaking changes between releases.
