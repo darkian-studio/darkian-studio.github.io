@@ -26,6 +26,8 @@ description: "Darkian Studio vs Visual Studio Code: a mobile-first runtime-bridg
 
 Visual Studio Code is a mature, desktop-first code editor and development environment for Windows, macOS, and Linux, built on Electron. It runs extensions in a dedicated Extension Host process against the complete `vscode` API and connects to remote machines through first-party remote extensions. Darkian Studio is a mobile-first development environment that runs on Android and Linux. Its editor, terminal, language intelligence, debugger, Git, and extensions all communicate through one runtime abstraction reached through `dsterm`, a Rust server that bridges PTY, language servers, debug adapters, and an extension host over a single port. The two tools overlap on editing, Git, debugging, language intelligence, and extensibility, but they target different form factors and workflows: VS Code assumes a desktop with a full OS and the full extension API, while DS assumes a phone or tablet where the "machine" is a runtime reached over a bridge and where the `vscode` API is a partial surface. DS is not trying to reinvent the editor — it aims to bring a VS Code-like workflow to Android and Linux.
 
+One asymmetry is worth stating plainly: DS is the younger project. It is a 1.0.0-beta distributed through GitHub Releases rather than a mature release channel, and its extension/theme ecosystem and community are far smaller than VS Code's. The comparisons below are between the current builds — DS 1.0.0-beta and VS Code 1.129.0 — and neither product is finished.
+
 ## How each tool works
 
 ```
@@ -58,15 +60,15 @@ VS Code is designed for a desktop or laptop with a mouse, physical keyboard, and
 
 ### One runtime for everything
 
-In DS, the editor, terminal, Git, LSP servers, debugger, and extensions all communicate through one runtime abstraction. That means they share one environment: the same `PATH`, the same filesystem, the same environment variables, the same installed SDKs, and the same Python (or other) interpreter. A package you install in the terminal is visible to the language server and the debugger without additional configuration. VS Code also runs these against one host OS, but it reaches that host through the normal process model and a separate Extension Host process rather than a single bridge server, and its remote model runs an entire separate VS Code instance on the remote machine.
+The thing to evaluate in DS isn't a single editor feature but whether all its tools share one environment. In DS, the editor, terminal, Git, LSP servers, debugger, and extensions all communicate through one runtime abstraction. That means they share one environment: the same `PATH`, the same filesystem, the same environment variables, the same installed SDKs, and the same Python (or other) interpreter. A package you install in the terminal is visible to the language server and the debugger without additional configuration. VS Code also runs these against one host OS, but it reaches that host through the normal process model and a separate Extension Host process rather than a single bridge server, and its remote model runs an entire separate VS Code instance on the remote machine.
 
 ### Runtime model
 
-VS Code runs as a native desktop application and executes tooling directly on the host operating system. Darkian Studio does not bundle a full OS runtime inside the app. On Android it drives a Termux environment through a local bridge; on Linux/macOS it can use a system runtime or a `dsterm` host. The editor, terminal, LSP servers, debugger, and extensions all communicate through that runtime, reached through `dsterm` — a multiplexed endpoint where the PTY, LSP, DAP, extension host, and execution features are all reached through one connection, which is what lets the editor, terminal, language servers, debugger, and extensions share a single runtime session.
+What determines how much real tooling you can run is where your shell actually lives. VS Code runs as a native desktop application and executes tooling directly on the host operating system. Darkian Studio does not bundle a full OS runtime inside the app. On Android it drives a Termux environment through a local bridge; on Linux/macOS it can use a system runtime or a `dsterm` host. The editor, terminal, LSP servers, debugger, and extensions all communicate through that runtime, reached through `dsterm` — a multiplexed endpoint where the PTY, LSP, DAP, extension host, and execution features are all reached through one connection, which is what lets the editor, terminal, language servers, debugger, and extensions share a single runtime session.
 
 ### Extension compatibility
 
-VS Code runs extensions in a dedicated Extension Host process against the complete `vscode` API, with a centralized Marketplace of tens of thousands of extensions including first-party Microsoft language and remote extensions. Darkian Studio integrates the Open VS X marketplace as its extension backend, so users can browse and install VS Code-compatible extensions (`.vsix`) directly, and it runs these through an extension host (`ds-extension-host`) that implements a subset of the `vscode` API.
+If you evaluate DS for its extension story, the first thing to check is how much of the `vscode` API the host implements. VS Code runs extensions in a dedicated Extension Host process against the complete `vscode` API, with a centralized Marketplace of tens of thousands of extensions including first-party Microsoft language and remote extensions. Darkian Studio integrates the Open VS X marketplace as its extension backend, so users can browse and install VS Code-compatible extensions (`.vsix`) directly, and it runs these through an extension host (`ds-extension-host`) that implements a subset of the `vscode` API.
 
 Important nuance: **availability of an extension in Open VS X does not guarantee compatibility.** Compatibility depends on which portions of the `vscode` API the extension actually uses.
 
@@ -77,7 +79,7 @@ Important nuance: **availability of an extension in Open VS X does not guarantee
 
 ### Remote runtimes
 
-VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux, macOS, or Windows host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Windows hosts work for file operations and editing, though terminal rendering there is not yet verified. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes, and **GitHub workspaces** — sign in, pick a branch, and edit and commit straight against a GitHub repository without cloning it.
+Whether a phone can drive the machine that actually has your tooling is the difference between editing on a phone and developing from one. VS Code's remote development is first-class: Remote-SSH, Dev Containers, and WSL connect the full editor — including the extension host — to a remote machine. Darkian Studio's runtime is not only local — its `dsterm` bridge can connect to a Linux, macOS, or Windows host, so the editor, terminal, language servers, debugger, and extensions all run against that remote runtime. Windows hosts work for file operations and editing, though terminal rendering there is not yet verified. DS also supports SFTP/FTP/FTPS/WebDAV as file-level remotes, and **GitHub workspaces** — sign in, pick a branch, and edit and commit straight against a GitHub repository without cloning it.
 
 ## Feature comparison
 
@@ -89,7 +91,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Syntax highlighting (many languages) | ✅ | ✅ |
 | Command palette | ✅ | ✅ |
 | Find / replace in editor | ✅ | ✅ |
-| Minimap | ⚠️ not in current beta | ✅ |
+| Minimap | ⚠️ removed in current beta (was tried, dropped) | ✅ |
 | Diff editor | ✅ | ✅ |
 | Git blame in editor | ✅ | ✅ (via extension) |
 | Integrated terminal | ✅ (dsterm-backed) | ✅ (native PTY) |
@@ -124,7 +126,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 ## When to choose Darkian Studio
 
 - You want to code from an Android phone or tablet with a real runtime, not a stripped-down mobile editor.
-- You want a development environment tethered to a genuine shell (Termux or a `dsterm` host) rather than a simulated sandbox.
+- You want a development environment tethered to a genuine shell (Termux or a `dsterm` host).
 - You want language intelligence and debugging integrated against the same runtime your terminal uses — one `PATH`, filesystem, and set of SDKs.
 - You want a built-in AI chat agent and fully offline local models (GGUF) without a subscription.
 - You want to install VS Code-compatible extensions from Open VS X, understanding the extension API is a partial surface.

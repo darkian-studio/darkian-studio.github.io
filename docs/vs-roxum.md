@@ -104,7 +104,7 @@ Legend: ✅ supported · ⚠️ partial / opt-in / stubbed · ❌ not supported
 | Syntax highlighting (many languages) | ✅ | ✅ |
 | Command palette | ✅ | ✅ |
 | Find / replace in editor | ✅ | ✅ |
-| Minimap | ⚠️ not in current beta | ⚠️ not in current release |
+| Minimap | ⚠️ removed in current beta (was tried, dropped) | ⚠️ not in current release |
 | Diff editor / pending-edit preview | ✅ | ✅ (pending-edit decorations) |
 | Integrated terminal | ✅ (dsterm-backed) | ✅ (native PTY, bundled shell) |
 | Terminal special keys (Ctrl / Alt / arrows) | ✅ in every session (input router, unit-tested) | ⚠️ local session only — non-functional over SSH/Termux |

@@ -24,6 +24,8 @@ description: "Darkian Studio vs Acode: one shared runtime for editor, LSP, debug
 
 Acode is a lightweight, open-source code editor and web IDE for Android, built on the Ace editor. It is designed for editing and managing code on a phone, with a terminal backed by a Rust PTY server (`axs`), Git/SSH support, and a community plugin store. Darkian Studio is a mobile-first development environment that runs on Android and Linux. Its editor, terminal, language intelligence, debugger, Git, and extensions all operate against one runtime reached through `dsterm`, a Rust server that bridges PTY, language servers, debug adapters, and an extension host over a single port. The two tools share the Android stage but differ in architecture: Acode layers IDE conveniences on top of a mobile editor, while DS routes every core function through one runtime abstraction.
 
+One asymmetry is worth stating plainly: DS is the younger project. It is a 1.0.0-beta distributed through GitHub Releases rather than the Play Store, so there is no store-driven auto-update channel or Play-install base yet, and its extension/theme ecosystem and community are smaller than Acode's. The comparisons below are between the current builds — DS 1.0.0-beta and Acode 1.12.6 — and neither product is finished.
+
 ## How each tool works
 
 ```
@@ -51,7 +53,7 @@ Git / LSP / terminal  (DS also routes debugger and extensions here)
 
 ### Runtime bridge scope
 
-`axs` (the backend Acode uses) is a focused Rust server: it serves a PTY over WebSocket and, as a separate subcommand, proxies a stdio language server to WebSocket. It does not itself host a debugger, an extension host, or Git; those live in the Acode app and talk to `axs` only for the terminal and the LSP transport.
+When you're evaluating DS, the question that matters is what the backend can host for you — a terminal alone, or a full IDE surface. `axs` (the backend Acode uses) is a focused Rust server: it serves a PTY over WebSocket and, as a separate subcommand, proxies a stdio language server to WebSocket. It does not itself host a debugger, an extension host, or Git; those live in the Acode app and talk to `axs` only for the terminal and the LSP transport.
 
 `dsterm` (the backend DS uses) is a broader Rust server. Beyond the PTY and an LSP bridge, it also exposes a DAP bridge (proxy to any Debug Adapter Protocol server), an extension-host bridge, a Model Context Protocol bridge, and silent/streaming command execution. Crucially, `dsterm` is a multiplexed endpoint rather than a collection of unrelated bridges: every feature is reached through one connection, which is why the terminal, language servers, debugger, extension host, and command execution all share a single runtime session.
 
@@ -61,21 +63,21 @@ In DS, the editor, terminal, Git, LSP servers, debugger, and extensions all shar
 
 ### Language intelligence
 
-Acode provides completion and IntelliSense via LSP through community plugins — you install and configure a language server per language. Darkian Studio includes a **built-in** LSP client: completion, hover, signature help, go-to-definition/references/implementation, rename, formatting, code actions, diagnostics, folding, semantic tokens, and inlay hints, handled against language servers running in the runtime or the extension host. In both, the language servers themselves still need to be available in the runtime.
+Language support is the first thing you feel in daily editing, so it matters whether it's built in or assembled by hand. Acode provides completion and IntelliSense via LSP through community plugins — you install and configure a language server per language. Darkian Studio includes a **built-in** LSP client: completion, hover, signature help, go-to-definition/references/implementation, rename, formatting, code actions, diagnostics, folding, semantic tokens, and inlay hints, handled against language servers running in the runtime or the extension host. In both, the language servers themselves still need to be available in the runtime.
 
 ### Debugging
 
-Acode offers an interactive JavaScript console for evaluating and debugging JS — a single useful feature, not a general debugger. Darkian Studio debugs through the Debug Adapter Protocol: `dsterm` proxies any DAP adapter over WebSocket, and DS renders breakpoints, variable inspection, watch expressions, the call stack, and a debug console — so it can debug any language that ships a standard DAP adapter.
+If you evaluate DS, debugging is where the two tools diverge most clearly. Acode offers an interactive JavaScript console for evaluating and debugging JS — a single useful feature, not a general debugger. Darkian Studio debugs through the Debug Adapter Protocol: `dsterm` proxies any DAP adapter over WebSocket, and DS renders breakpoints, variable inspection, watch expressions, the call stack, and a debug console — so it can debug any language that ships a standard DAP adapter.
 
 ### Extensions and compatibility
 
-Acode has a community Plugin Store of JavaScript addons written against Acode's own plugin API. Darkian Studio integrates the Open VS X marketplace, so users can browse and install VS Code-compatible extensions (`.vsix`), run through an extension host (`ds-extension-host`) that implements a subset of the `vscode` API.
+Extensions are how both tools grow, but the plugin API each exposes decides what those extensions can actually do. Acode has a community Plugin Store of JavaScript addons written against Acode's own plugin API. Darkian Studio integrates the Open VS X marketplace, so users can browse and install VS Code-compatible extensions (`.vsix`), run through an extension host (`ds-extension-host`) that implements a subset of the `vscode` API.
 
 Important nuance: **availability of an extension in Open VS X does not guarantee compatibility.** Compatibility depends on which portions of the `vscode` API the extension actually uses. Extensions that contribute diagnostics, commands, configuration, or file-system access work; those that depend on the editor surface, a built-in terminal, the debug view, or SCM UI will not behave as in VS Code. Microsoft-exclusive remote extensions are blocked.
 
 ### Project management
 
-Acode manages files and projects with an in-app file browser, FTP/SFTP, and GitHub sync. Darkian Studio includes workspace roots, trusted workspaces, GitHub workspaces, tasks, and test runners (pytest, Flutter, Cargo collectors) as project-level structures.
+Beyond the editor itself, the workflows you can run — conflict resolution, tasks, test suites — depend on the project-level structure the tool gives you. Acode manages files and projects with an in-app file browser, FTP/SFTP, and GitHub sync. Darkian Studio includes workspace roots, trusted workspaces, GitHub workspaces, tasks, and test runners (pytest, Flutter, Cargo collectors) as project-level structures.
 
 ## Feature comparison
 
