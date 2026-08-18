@@ -6,6 +6,52 @@
 #     --jq '.[] | {version: .tag_name, name: .name, date: (.published_at // ""), prerelease: .prerelease, url: .html_url, body: .body}'
 # then map the fields into the structure below. Seeded here from the public CHANGELOG.md.
 
+- version: "1.0.0-beta.6"
+  date: "2026-08-18"
+  prerelease: true
+  title: "Voice-to-text input, user skills, vision, and full internationalization"
+  url: "https://github.com/darkian-studio/app/releases"
+  sections:
+    - heading: Added
+      items:
+        - "Voice-to-text input: speak a prompt; it is transcribed in-app via the Web Speech API and streamed into an inverted top dropdown, then formatted to markdown by the small \"big-pickle\" model before being sent to chat."
+        - "User skills: skills from ~/.agents/skills are now loaded via dsterm's silentRun (no SAF grant required)."
+        - "Vision: image-capable models can now see images read from files in agent chat."
+        - "MCP management screen with an add-dialog and optional description; MCP servers are now wired as agent tools and forward configured environment variables."
+        - "GitHub agent tools: issues, pull requests, workflows, and commits."
+        - "Full internationalization: hardcoded UI strings wired to AppLocalizations across the marketplace, hamburger menus, and settings; all 16 non-English locales completed (370/370 keys)."
+        - "Adaptive Material 3 responsive layout system; persistent panels embedded via DsPaneHost docking and DsAdaptiveSheet."
+        - "Editor: toggle breakpoints at the cursor (Ctrl+Shift+B); in-document word completions with color icons by kind; CM6 as the single completion UI (Flutter overlay dropped); LSP completion results echoed back via a requestId bridge channel."
+        - "Theme: per-theme accent derivation for CM6 bundle themes."
+        - "Marketplace: Hugging Face logo on model cards."
+        - "Clone: dsterm pre-check and simplified clone input (owner/repo + ssh/https)."
+        - "Compact (phone) UI: smaller editor/terminal/chat font defaults."
+        - "Nav bar and command palette icons migrated to codicons."
+    - heading: Changed
+      items:
+        - "Marketplace install taxonomy clarified; on-disk extensions are the source of truth."
+        - "Extension-host message handling replaced with a dispatch table; node/netcat discovery memoized and kill/error helpers de-duplicated."
+        - "Extensions nav label renamed to Marketplace."
+        - "Welcome screen action block and recent projects centered on wide screens."
+        - "Token estimator aligned with opencode; heavy directories excluded from ingestion."
+        - "Welcome screen palette kept in sync with darkian/light editor themes."
+    - heading: Fixed
+      items:
+        - "Chat: ref.listen moved into build (startup assertion crash fixed); voice-mode codicon used for the voice button."
+        - "LSP: tolerate a null range in content changes (full-document replacement) — startup crash fixed."
+        - "Skills indexed by frontmatter/directory name instead of file basename."
+        - "UI: left inset no longer reserved behind the nav rail; landscape status strip and nav-gap layout fixed."
+        - "Editor: language completions queried via languageDataAt; theme completion popup and color icons by kind; finer CM6 highlighting for installed themes; installed themes mapped to CM6 by most-general scope."
+        - "Extensions: reconciled snapshot propagated to installed/catalogue UI; install/uninstall errors logged with stack + step markers."
+        - "Theme: canonical syntax color extraction corrected; GitHub dark highlight no longer layered over light themes; gilded accent restored on reopen."
+        - "AI: per-id tool-call indices in the local chat transport; tool calls folded into the target in place."
+        - "Termux: OpenSSL added so installing curl on a fresh Termux won't break the runtime."
+        - "Editor: Exit Workspace moved to the bottom of the workspace submenu behind a divider."
+        - "Updates: offer equal-core beta releases instead of reporting \"up to date\"."
+    - heading: Removed
+      items:
+        - "Theme translation probe diagnostic screen (added then removed during beta 6)."
+
 - version: "1.0.0-beta.5"
   date: "2026-08-14"
   prerelease: true
